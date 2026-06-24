@@ -2,14 +2,348 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Primera Web en GitHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Mundialista - Los 7 Amigos</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        h1 { color: #333; }
+        /* --- ESTILOS GENERALES Y FONDO DE GRAMA INTERACTIVO --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1e4620;
+            /* Fondo de césped base */
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(60deg, #1b4d22 25%, #225e2a 25%, #225e2a 50%, #1b4d22 50%, #1b4d22 75%, #225e2a 75%, #225e2a);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Capa interactiva que reacciona al movimiento del mouse simulando movimiento de grama */
+        .grama-interactiva {
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 40px);
+            z-index: 1;
+            pointer-events: none;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* --- CONTENEDORES PRINCIPALES --- */
+        .contenedor {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+            text-align: center;
+            border: 4px solid #ffd700; /* Borde dorado copa */
+            display: none; /* Se controla por JS */
+        }
+
+        .activo {
+            display: block;
+        }
+
+        h1 {
+            color: #1b4d22;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* --- LOGIN --- */
+        .campo-login {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .campo-login:focus {
+            border-color: #1b4d22;
+            outline: none;
+        }
+
+        button {
+            background: #1b4d22;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: #225e2a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .error-msg {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- TABLA DE CLASIFICACIÓN GENERAL --- */
+        .tabla-puntos {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tabla-puntos th, .tabla-puntos td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tabla-puntos th {
+            background-color: #1b4d22;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .tabla-puntos tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .podio {
+            font-weight: bold;
+            color: #ffd700; /* Oro para el líder */
+        }
+
+        .usuario-actual-info {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            color: #1b4d22;
+            font-weight: bold;
+        }
+
+        .botones-menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secundario {
+            background: #555;
+        }
+        .btn-secundario:hover {
+            background: #666;
+        }
     </style>
 </head>
 <body>
-    <h1>¡Hola, mundo!</h1>
-    <p>Esta es mi primera página web alojada gratis en GitHub Pages.</p>
+
+    <!-- Capa que se moverá sutilmente siguiendo el cursor para simular la grama -->
+    <div class="grama-interactiva" id="grama"></div>
+
+    <!-- PANTALLA 1: LOGIN -->
+    <div class="contenedor activo" id="pantalla-login">
+        <h1>🏆 Quiniela Amigos 🏆</h1>
+        <p style="margin-bottom: 20px; color: #666;">Introduce tu usuario y tu país del mundial para ingresar</p>
+        
+        <select id="login-usuario" class="campo-login">
+            <option value="">Selecciona tu usuario...</option>
+            <option value="Saul">Saul</option>
+            <option value="Jorge">Jorge</option>
+            <option value="Osmel">Osmel</option>
+            <option value="Edgar">Edgar</option>
+            <option value="Guillermo">Guillermo</option>
+            <option value="Francisco">Francisco</option>
+            <option value="Gerardo">Gerardo</option>
+        </select>
+
+        <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña (Tu País asignado)">
+        
+        <button onclick="intentarLogin()">Ingresar a la Quiniela</button>
+        <p class="error-msg" id="error-login">Usuario o clave (país) incorrectos.</p>
+    </div>
+
+    <!-- PANTALLA 2: DASHBOARD / TABLA DE CLASIFICACIÓN -->
+    <div class="contenedor" id="pantalla-dashboard">
+        <h1>Quiniela del Mundial</h1>
+        
+        <div class="usuario-actual-info" id="info-sesion">
+            Bienvenido, Usuario
+        </div>
+
+        <h2>📊 Tabla General de Posiciones</h2>
+        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Puntajes simulados (Acierto: 100pts | Error: -20pts)</p>
+        
+        <table class="tabla-puntos">
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>Amigo</th>
+                    <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <!-- Se rellena con JS -->
+            </tbody>
+        </table>
+
+        <div class="botones-menu">
+            <button onclick="irAFormulario()">📝 Mi Quiniela</button>
+            <button onclick="cerrarSesion()" class="btn-secundario">Salir</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: FORMULARIO DE GRUPOS (MUESTRA PREVIA) -->
+    <div class="contenedor" id="pantalla-quiniela" style="max-width: 600px;">
+        <h1>Configurar Mis Pronósticos</h1>
+        <div class="usuario-actual-info" id="info-sesion-q"></div>
+        
+        <p style="margin-bottom: 15px; color: #444;">Próximamente desplegaremos las listas completas desde el Grupo A hasta el Grupo L para guardar tus clasificados.</p>
+        
+        <button onclick="irADashboard()" class="btn-secundario">Volver a la Tabla</button>
+    </div>
+
+    <script>
+        /* --- BASE DE DATOS LOCAL EN CÓDIGO (Usuarios y Claves) --- */
+        const credenciales = {
+            "Saul": "Argentina",
+            "Jorge": "España",
+            "Osmel": "Brasil",
+            "Edgar": "Francia",
+            "Guillermo": "Alemania",
+            "Francisco": "Portugal",
+            "Gerardo": "Italia"
+        };
+
+        // Datos iniciales de ejemplo para la tabla de clasificación
+        const puntajesIniciales = {
+            "Saul": 500,
+            "Jorge": 420,
+            "Osmel": 380,
+            "Edgar": 300,
+            "Guillermo": 260,
+            "Francisco": 180,
+            "Gerardo": 100
+        };
+
+        let usuarioLogueado = "";
+
+        /* --- EFECTO VISUAL: MOVIMIENTO DE GRAMA AL MOVER EL MOUSE --- */
+        document.addEventListener('mousemove', (e) => {
+            const grama = document.getElementById('grama');
+            // Calcula un movimiento sutil basado en la posición del cursor
+            const moverX = (e.clientX / window.innerWidth - 0.5) * 30;
+            const moverY = (e.clientY / window.innerHeight - 0.5) * 30;
+            grama.style.transform = `translate(${moverX}px, ${moverY}px)`;
+        });
+
+        /* --- LÓGICA DE CONTROL DE SESIÓN --- */
+        function intentarLogin() {
+            const usuario = document.getElementById('login-usuario').value;
+            const clave = document.getElementById('login-clave').value.trim();
+            const errorMsg = document.getElementById('error-login');
+
+            if (credenciales[usuario] && credenciales[usuario].toLowerCase() === clave.toLowerCase()) {
+                usuarioLogueado = usuario;
+                errorMsg.style.display = 'none';
+                document.getElementById('login-clave').value = ""; // Limpiar clave
+                
+                irADashboard();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function cerrarSesion() {
+            usuarioLogueado = "";
+            cambiarPantalla('pantalla-login');
+        }
+
+        /* --- NAVEGACIÓN Y RENDERIZADO --- */
+        function cambiarPantalla(idPantalla) {
+            document.getElementById('pantalla-login').classList.remove('activo');
+            document.getElementById('pantalla-dashboard').classList.remove('activo');
+            document.getElementById('pantalla-quiniela').classList.remove('activo');
+            
+            document.getElementById(idPantalla).classList.add('activo');
+        }
+
+        function irADashboard() {
+            document.getElementById('info-sesion').innerText = `⚽ Sesión de: ${usuarioLogueado} (Clave: ${credenciales[usuarioLogueado]})`;
+            actualizarTablaPosiciones();
+            cambiarPantalla('pantalla-dashboard');
+        }
+
+        function irAFormulario() {
+            document.getElementById('info-sesion-q').innerText = `Formulario de ${usuarioLogueado}`;
+            cambiarPantalla('pantalla-quiniela');
+        }
+
+        function actualizarTablaPosiciones() {
+            const cuerpo = document.getElementById('cuerpo-tabla');
+            cuerpo.innerHTML = "";
+
+            // Convertir objeto a array y ordenar de mayor a menor puntaje
+            const listaOrdenada = Object.keys(puntajesIniciales)
+                .map(nombre => ({ nombre: nombre, puntos: puntajesIniciales[nombre] }))
+                .sort((a, b) => b.puntos - a.puntos);
+
+            listaOrdenada.forEach((amigo, indice) => {
+                const fila = document.createElement('tr');
+                
+                // Resalta la fila si es la del usuario actual
+                if (amigo.nombre === usuarioLogueado) {
+                    fila.style.backgroundColor = "#d0e8d3";
+                    fila.style.fontWeight = "bold";
+                }
+
+                const celdaPos = document.createElement('td');
+                celdaPos.innerText = indice + 1;
+                if(indice === 0) celdaPos.classList.add('podio');
+
+                const celdaNombre = document.createElement('td');
+                celdaNombre.innerText = amigo.nombre;
+
+                const celdaPuntos = document.createElement('td');
+                celdaPuntos.innerText = `${amigo.puntos} pts`;
+
+                fila.appendChild(celdaPos);
+                fila.appendChild(celdaNombre);
+                fila.appendChild(celdaPuntos);
+                cuerpo.appendChild(fila);
+            });
+        }
+    </script>
 </body>
 </html>
