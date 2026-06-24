@@ -43,17 +43,24 @@
             z-index: 9999;
         }
 
-        /* --- PANTALLA DE LOGIN --- */
+        /* --- PANTALLA DE LOGIN (BORDE NEGRO Y TÍTULO EN UNA LÍNEA) --- */
         .pantalla-login {
             background: rgba(255, 255, 255, 0.96);
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 90%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 450px;
             text-align: center;
-            border: 4px solid var(--dorado);
+            border: 5px solid #000000;
             z-index: 50;
+        }
+
+        .pantalla-login h1 {
+            white-space: nowrap;
+            font-size: 26px;
+            color: var(--verde-grama);
+            margin-bottom: 15px;
         }
 
         .campo-login {
@@ -69,8 +76,8 @@
             background: var(--verde-grama);
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 14px;
+            padding: 14px 24px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
@@ -85,7 +92,7 @@
 
         .img-login-decoracion {
             width: 100%;
-            max-width: 200px;
+            max-width: 250px;
             margin-top: 20px;
             object-fit: contain;
         }
@@ -95,10 +102,10 @@
             display: none;
             width: 100vw;
             height: 100vh;
-            grid-template-columns: 320px 1fr;
+            grid-template-columns: 350px 1fr;
         }
 
-        /* --- COLUMNA LATERAL (PERFIL CON FONDO VERTICAL.JPG) --- */
+        /* --- COLUMNA LATERAL (PERFIL CON FONDO VERTICAL.JPG Y FUENTES 1.5X) --- */
         .sidebar-perfil {
             background-image: url('vertical.jpg');
             background-size: cover;
@@ -106,14 +113,13 @@
             border-right: 3px solid var(--dorado);
             display: flex;
             flex-direction: column;
-            padding: 20px 15px;
+            padding: 25px 15px;
             box-shadow: 5px 0 15px rgba(0,0,0,0.3);
             z-index: 20;
             overflow-y: auto;
             height: 100%;
         }
 
-        /* Capa clara intermedia para legibilidad sobre vertical.jpg */
         .sidebar-perfil > * {
             position: relative;
             z-index: 2;
@@ -121,61 +127,64 @@
 
         .avatar-contenedor {
             position: relative;
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 10px;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 15px;
             border-radius: 50%;
-            border: 4px solid var(--verde-grama);
+            border: 5px solid var(--verde-grama);
             background: #f0f0f0;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
         .btn-subir-foto {
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             color: white;
             position: absolute;
             bottom: 0; width: 100%;
-            font-size: 10px; padding: 3px 0;
+            font-size: 12px; padding: 6px 0;
             cursor: pointer; text-align: center;
+            font-weight: bold;
         }
 
         .nombre-perfil {
-            font-size: 22px;
+            font-size: 28px;
             color: #ffffff;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
         }
 
         .seccion-favorito {
-            background: rgba(255, 255, 255, 0.92);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
         .seccion-favorito label {
-            font-size: 12px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--verde-grama);
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .selector-fav {
             width: 100%;
-            padding: 6px;
-            border-radius: 4px;
-            font-size: 13px;
-            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: bold;
         }
 
         .bloque-info-equipo {
@@ -187,25 +196,44 @@
         }
 
         .bandera-fav {
-            width: 45px; height: 30px; object-fit: cover;
-            border: 1px solid #ccc; margin-bottom: 5px;
+            width: 90%; 
+            height: 140px; 
+            object-fit: cover;
+            border: 2px solid #bbb; 
+            margin-bottom: 12px;
+            border-radius: 6px;
             display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .datos-curiosos {
-            font-size: 11px; color: #333; font-style: italic;
-            background: #fff; padding: 6px; border-radius: 4px;
-            border-left: 3px solid var(--dorado); margin-top: 5px;
-            text-align: left; width: 100%;
-            box-shadow: inset 0 0 3px rgba(0,0,0,0.05);
+            font-size: 16.5px; 
+            color: #222; 
+            font-style: italic;
+            background: #fff; 
+            padding: 10px; 
+            border-radius: 6px;
+            border-left: 5px solid var(--dorado); 
+            margin-top: 8px;
+            text-align: left; 
+            width: 100%;
+            line-height: 1.4;
         }
 
         .calendario-juegos {
-            font-size: 11px; margin-top: 8px; width: 100%;
-            border-top: 1px dashed #ccc; padding-top: 5px;
+            font-size: 16.5px; 
+            margin-top: 12px; 
+            width: 100%;
+            border-top: 2px dashed #ccc; 
+            padding-top: 8px;
         }
 
-        .juego-item { padding: 3px 0; border-bottom: 1px solid #eee; color: #333; text-align: left;}
+        .juego-item { padding: 5px 0; border-bottom: 1px solid #eee; color: #111; text-align: left; font-weight: 500; }
+
+        .sidebar-perfil button {
+            font-size: 18px;
+            padding: 14px;
+        }
 
         .btn-salir { background: #cc2424; width: 100%; margin-top: auto; }
         .btn-salir:hover { background: #e53935; }
@@ -234,89 +262,91 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            border: 3px solid rgba(255,255,255,0.4);
+            border: 4px solid rgba(255,255,255,0.5);
             border-radius: 12px;
             display: flex;
             flex-wrap: nowrap;
             justify-content: center;
             align-content: flex-start;
-            padding: 20px 10px;
-            gap: 20px;
+            padding: 30px 20px;
+            gap: 40px;
             z-index: 1;
         }
 
+        /* AMIGOS EN EL CAMPO AL DOBLE DE TAMAÑO (2X) */
         .amigo-cancha {
-            background: rgba(255,255,255,0.92);
-            padding: 6px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 16px;
             text-align: center;
-            width: 85px;
+            width: 170px;
             cursor: pointer;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            border: 2px solid transparent;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: 3px solid transparent;
             transition: all 0.2s ease;
             height: fit-content;
             z-index: 2;
         }
 
         .amigo-cancha:hover { transform: scale(1.08); border-color: var(--dorado); }
-        .amigo-avatar { width: 45px; height: 45px; border-radius: 50%; background: #ddd; margin: 0 auto 4px; overflow: hidden; border: 2px solid var(--verde-grama); }
+        .amigo-avatar { width: 90px; height: 90px; border-radius: 50%; background: #ddd; margin: 0 auto 10px; overflow: hidden; border: 3px solid var(--verde-grama); }
         .amigo-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .amigo-nombre { font-size: 11px; font-weight: bold; color: #222; }
+        .amigo-nombre { font-size: 20px; font-weight: bold; color: #111; }
 
-        /* --- IMAGEN COPA.PNG ARRASTRABLE EN EL CAMPO --- */
+        /* --- IMAGEN COPA.PNG AL TRIPLE DE TAMAÑO (3X) --- */
         .copa-arrastrable {
             position: absolute;
-            top: 40%;
-            left: 46%;
-            width: 90px;
+            top: 35%;
+            left: 42%;
+            width: 270px;
             height: auto;
             z-index: 5;
             cursor: move;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.5));
             user-select: none;
         }
 
-        /* --- SECCIÓN COMENTARISTA (ESQUINA INFERIOR DERECHA) --- */
+        /* --- SECCIÓN COMENTARISTA AL TRIPLE DE TAMAÑO (3X) --- */
         .contenedor-comentarista-cancha {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             display: flex;
             align-items: flex-end;
-            gap: 15px;
+            gap: 25px;
             z-index: 15;
-            max-width: 380px;
+            max-width: 800px;
             pointer-events: auto;
         }
 
         .avatar-mascota-grande {
-            width: 110px;
-            height: 110px;
+            width: 330px;
+            height: 330px;
             object-fit: contain;
-            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
             flex-shrink: 0;
         }
 
         .burbuja-noticia-cancha {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            color: #111;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 25px;
+            border-radius: 24px;
+            font-size: 24px;
+            color: #000;
             font-weight: bold;
-            border: 3px solid var(--verde-grama);
+            border: 5px solid var(--verde-grama);
             position: relative;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            margin-bottom: 10px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            margin-bottom: 40px;
+            line-height: 1.4;
         }
 
         .burbuja-noticia-cancha::before {
             content: "";
             position: absolute;
-            bottom: 15px;
-            right: -10px;
-            border-width: 8px 0 8px 10px;
+            bottom: 30px;
+            right: -18px;
+            border-width: 12px 0 12px 18px;
             border-style: solid;
             border-color: transparent transparent transparent var(--verde-grama);
         }
@@ -325,16 +355,16 @@
         .cuadro-arrastrable {
             position: absolute;
             z-index: 10;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
             border-radius: 12px;
             overflow: hidden;
         }
 
         .cabecera-cuadro {
-            background: rgba(0, 0, 0, 0.75);
-            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px 15px;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             cursor: move;
             display: flex;
@@ -344,11 +374,11 @@
             user-select: none;
         }
 
-        #contenedor-flotante-bracket { top: 120px; left: 30px; width: 460px; }
-        #contenedor-flotante-tabla { top: 400px; left: 30px; width: 500px; }
+        #contenedor-flotante-bracket { top: 150px; left: 40px; width: 480px; }
+        #contenedor-flotante-tabla { top: 440px; left: 40px; width: 650px; }
 
         .contenedor-bracket {
-            background-color: rgba(38, 16, 71, 0.92);
+            background-color: rgba(38, 16, 71, 0.94);
             backdrop-filter: blur(10px);
             border: 3px solid var(--dorado);
             padding: 15px;
@@ -357,7 +387,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            height: 250px;
+            height: 260px;
         }
 
         .contenedor-bracket::before {
@@ -367,19 +397,60 @@
             font-size: 9px; text-align: center; padding: 2px 0; letter-spacing: 1px;
         }
 
-        /* --- AMPLIACIÓN DE LA TABLA SIN SCROLL --- */
+        .caja-partido {
+            background: var(--morado-caja);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 90px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .columna-bracket {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .centro-final {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .icono-trofeo {
+            font-size: 35px;
+            color: var(--dorado);
+            animation: brillar 2s infinite alternate;
+        }
+
+        @keyframes brillar {
+            from { filter: drop-shadow(0 0 2px var(--dorado)); }
+            to { filter: drop-shadow(0 0 12px #ffffff); }
+        }
+
+        /* --- CUADRO DE TABLA EXPANDIDO COMPLETO SIN SCROLL --- */
         .contenedor-tabla {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(10px);
-            padding: 15px;
-            border: 3px solid var(--verde-grama);
-            height: auto; /* Dinámico para evitar scroll interno */
+            padding: 20px;
+            border: 4px solid var(--verde-grama);
+            height: auto;
             overflow: hidden;
         }
 
-        .tabla-puntos { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .tabla-puntos th, .tabla-puntos td { padding: 9px 8px; text-align: center; border-bottom: 1px solid #ddd; }
-        .tabla-puntos th { background-color: var(--verde-grama); color: white; }
+        .tabla-puntos { width: 100%; border-collapse: collapse; font-size: 15px; }
+        .tabla-puntos th, .tabla-puntos td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #ddd; }
+        .tabla-puntos th { background-color: var(--verde-grama); color: white; font-weight: bold; }
+        .tabla-puntos tr:last-child td { border-bottom: none; }
 
         /* --- MODALES --- */
         .modal-quiniela {
@@ -416,12 +487,11 @@
 </head>
 <body class="login-bg">
 
-    <!-- CANVAS PARTICULAS SPARK STYLE -->
     <canvas id="spark-canvas"></canvas>
 
-    <!-- PANTALLA LOGIN CON ATRIBUTOS SOLICITADOS -->
+    <!-- PANTALLA LOGIN -->
     <div class="pantalla-login" id="seccion-login">
-        <h1 style="color: var(--verde-grama); margin-bottom: 15px;">⚽ Quiniela Peluches 🏆</h1>
+        <h1>⚽ Quiniela Peluches 🏆</h1>
         <p style="color: #666; margin-bottom: 20px;">Inicia sesión en tu cuenta</p>
         
         <select id="login-usuario" class="campo-login">
@@ -438,11 +508,10 @@
         <button onclick="intentarLogin()" style="width: 100%;">Ingresar</button>
         <p class="error-msg" id="error-login">Usuario o Contraseña incorrectos.</p>
         
-        <!-- Imagen t1.png debajo de los controles de Login -->
         <img src="t1.png" alt="Decoración Peluches" class="img-login-decoracion">
     </div>
 
-    <!-- MAIN DASHBOARD LAYOUT -->
+    <!-- MAIN DASHBOARD -->
     <div class="dashboard-container" id="seccion-dashboard">
         
         <aside class="sidebar-perfil">
@@ -467,19 +536,18 @@
                 </div>
             </div>
 
-            <button onclick="abrirModalMenuFases(true)" style="width: 100%; margin-bottom: 10px;">📝 Editar Mi Quiniela</button>
+            <button onclick="abrirModalMenuFases(true)" style="width: 100%; margin-bottom: 15px;">📝 Editar Mi Quiniela</button>
             <button onclick="cerrarSesion()" class="btn-salir">🚪 Cerrar Aplicación</button>
         </aside>
 
         <main class="area-central">
             <div class="bloque-superior-juego">
-                <!-- Lienzo principal del campo de juego con fondo.jpg -->
                 <div class="cancha-futbol" id="cancha"></div>
 
-                <!-- COPA.PNG ARRASTRABLE SOBRE EL TERRENO -->
+                <!-- COPA TRIPLE (3X) -->
                 <img src="copa.png" id="copa-pieza" class="copa-arrastrable" alt="Trofeo Mundial" onmousedown="iniciarArrastre(event, 'copa-pieza')">
 
-                <!-- COMENTARISTA (Mascota al lado de la burbuja, abajo a la derecha de la cancha) -->
+                <!-- COMENTARISTA (Mascota m1/m2/m3 congelada abajo a la derecha) -->
                 <div class="contenedor-comentarista-cancha">
                     <div id="texto-noticia" class="burbuja-noticia-cancha">¡Bienvenidos al Estadio de la Quiniela Peluches!</div>
                     <img id="foto-mascota" class="avatar-mascota-grande" src="m1.png" alt="Comentarista">
@@ -520,14 +588,14 @@
                     </div>
                 </div>
 
-                <!-- TABLA FLOTANTE AMPLIADA TOTALMENTE VISIBLE -->
+                <!-- TABLA FLOTANTE TOTALMENTE VISIBLE -->
                 <div class="cuadro-arrastrable" id="contenedor-flotante-tabla">
                     <div class="cabecera-cuadro" onmousedown="iniciarArrastre(event, 'contenedor-flotante-tabla')">
                         <span>📊 Puntuaciones del Grupo</span>
                         <span style="font-size: 9px; opacity: 0.7;">📌 Arrastrar</span>
                     </div>
                     <div class="contenedor-tabla">
-                        <h4 style="color: var(--verde-grama); margin-bottom: 8px; font-size:13px; font-weight: bold;">Clasificación de Octavos de Final</h4>
+                        <h4 style="color: var(--verde-grama); margin-bottom: 8px; font-size:14px; font-weight: bold;">Clasificación de Octavos de Final</h4>
                         <table class="tabla-puntos">
                             <thead>
                                 <tr>
@@ -547,7 +615,7 @@
         </main>
     </div>
 
-    <!-- MODAL DE LA QUINIELA -->
+    <!-- MODAL -->
     <div class="modal-quiniela" id="modal-q">
         <div class="modal-contenido">
             <h2 id="modal-titulo" style="color: var(--verde-grama); margin-bottom: 5px;">Pronósticos del Mundial</h2>
@@ -611,7 +679,7 @@
             "K": { "1ro": "Senegal", "2do": "Serbia" }, "L": { "1ro": "Suecia", "2do": "Polonia" }
         };
 
-        // Base de datos completa con 10 datos de interés para cada país sin excepción
+        // BASE DE DATOS COMPLETA DE LOS 48 PAÍSES (10 DATOS EXACTOS CADA UNO)
         const poolCuriosidades = {
             "Argentina": [
                 "Utilizó un balón de fabricación local en la primera final de Uruguay 1930.",
@@ -669,7 +737,7 @@
                 "Debutó oficialmente como selección en las Olimpiadas de Amberes de 1920.",
                 "Iker Casillas mantiene el récord de imbatibilidad en fases eliminatorias (480 minutos).",
                 "Fue la primera escuadra europea en ganar el campeonato fuera de su continente.",
-                "Consiguió un invicto histórico internacional de 35 compromisos seguidos.",
+                "Consiguieron un invicto histórico internacional de 35 compromisos seguidos.",
                 "Gavi se convirtió en su goleador más joven en la historia de la Copa de la FIFA.",
                 "La mítica e inolvidable mascota oficial de su edición en 1982 fue Naranjito."
             ],
@@ -679,7 +747,7 @@
                 "Han disputado un total récord de ocho finales de la Copa del Mundo.",
                 "Su victoria 7-1 sobre Brasil en 2014 es la semifinal más abultada de la historia.",
                 "Consiguieron el milagro de Berna en 1954 derrotando a la favorita Hungría.",
-                "Han alcanzado el podio (tres primeros puestos) en un total de 12 ocasiones.",
+                "Han alcanzado el podio en un total de 12 ocasiones.",
                 "Su icónico uniforme blanco con negro proviene de la bandera de Prusia.",
                 "Lothar Matthäus es el jugador de campo con más ediciones disputadas de la historia.",
                 "Ninguna selección ha jugado tantos partidos en fases finales mundiales como ellos.",
@@ -694,7 +762,7 @@
                 "Organizaron de forma conjunta con Corea del Sur el primer mundial de Asia en 2002.",
                 "Su sistema formativo de fútbol base está fuertemente ligado a escuelas y universidades.",
                 "El uniforme azul eléctrico representa el color del océano que rodea las islas.",
-                "En Rusia 2018 se convirtieron en la primera selección asiática en batir a una sudamericana (Colombia).",
+                "En Rusia 2018 se convirtieron en la primera selección asiática en batir a una sudamericana.",
                 "Su federación cuenta con un plan maestro integral para ganar el mundial antes de 2050."
             ],
             "Ecuador": [
@@ -712,7 +780,7 @@
             "Brasil": [
                 "Ha participado en todas las ediciones de los mundiales de forma ininterrumpida.",
                 "Lidera el palmarés histórico del certamen con un total de 5 estrellas.",
-                "Eliminó el uniforme blanco de por vida tras la tragedia del Maracanazo.",
+                "Eliminó el uniforme blanco de por vida tras la derrota del Maracanazo.",
                 "Pelé es el campeón mundial más joven del planeta con apenas 17 años.",
                 "Tiene el honor de ser la escuadra más goleadora en la historia de la FIFA.",
                 "El fenómeno Ronaldo Nazário marcó 15 anotaciones en fases finales.",
@@ -741,7 +809,7 @@
                 "Su estrella Hong Myung-bo fue galardonado con el Balón de Bronce en 2002.",
                 "Su primera aparición absoluta en el certamen ocurrió en Suiza 1954.",
                 "Son famosos por la disciplina militar y velocidad física de sus plantillas.",
-                "Son Hheung-min es considerado uno de los mayores íconos deportivos de su historia.",
+                "Son Heung-min es considerado uno de los mayores íconos deportivos de su historia.",
                 "En 2002 eliminaron de forma consecutiva a potencias como Italia y España.",
                 "Su uniforme tradicional destaca por el uso del rojo encendido y blanco."
             ],
@@ -754,7 +822,7 @@
                 "Su clasificación desató una fiesta nacional declarada oficialmente por su gobierno.",
                 "El mítico Bob Marley era un apasionado del fútbol y seguidor de la selección.",
                 "Su uniforme es famoso por incorporar vibrantes patrones geométricos en verde, amarillo y negro.",
-                " Robbie Earle anotó el primer gol de Jamaica en la historia de las fases finales.",
+                "Robbie Earle anotó el primer gol de Jamaica en la historia de las fases finales.",
                 "La mayoría de sus jugadores históricos militaban en el fútbol de Inglaterra."
             ],
             "Italia": [
@@ -766,7 +834,7 @@
                 "Protagonizaron junto a Alemania el 'Partido del Siglo' en México 1970 (4-3).",
                 "Su campeonato en España 1982 consagró al mítico delantero Paolo Rossi.",
                 "Ganaron su cuarta corona en Alemania 2006 venciendo a Francia en penales.",
-                "Mantienden una rivalidad histórica de alta tensión futbolística con Brasil.",
+                "Mantienen una rivalidad histórica de alta tensión futbolística con Brasil.",
                 "Dino Zoff se convirtió en el campeón más longevo ganando con 40 años."
             ],
             "Bélgica": [
@@ -779,7 +847,7 @@
                 "Es un país trilingüe, por lo que su escudo lleva las siglas en francés y flamenco.",
                 "Tienen una larga tradición de esquemas tácticos de alta flexibilidad y posesión.",
                 "Su uniforme estelar resalta los colores negro, amarillo y rojo de su bandera.",
-                "Mantienden un clásico de frontera de alta rivalidad contra los Países Bajos."
+                "Mantienen un clásico de frontera de alta rivalidad contra los Países Bajos."
             ],
             "Argelia": [
                 "Dieron la gran sorpresa al vencer a Alemania Occidental en España 1982.",
@@ -801,20 +869,20 @@
                 "Su máximo referente histórico en mundiales ha sido el delantero Carlos Pavón.",
                 "El técnico Chelato Uclés es considerado el héroe estratega eterno del país.",
                 "Su uniforme clásico es blanco inmaculado con la icónica letra 'H' en el pecho.",
-                "Mantienden duelos de alta intensidad regional frente a México y EE.UU.",
+                "Mantienen duelos de alta intensidad regional frente a México y EE.UU.",
                 "La velocidad física y la fuerza marcan la identidad de sus plantillas.",
                 "Su liga local ha servido de base fundamental para nutrir los procesos mundialistas."
             ],
             "Uruguay": [
                 "Fueron los organizadores y campeones del primer mundial en 1930.",
                 "Protagonizaron la hazaña más grande de la historia ganando el Maracanazo en 1950.",
-                "Su camiseta celeste cuenta con 4 estrellas (2 Mundiales y 2 Juegos Olímpicos previos considerados campeonatos mundiales).",
+                "Su camiseta celeste cuenta con 4 estrellas por títulos de jerarquía mundial.",
                 "Su identidad de juego está definida por la legendaria 'Garra Charrúa'.",
                 "Es el país con menor población en la historia en haber ganado una Copa del Mundo.",
                 "Luis Suárez es su máximo anotador histórico en procesos generales.",
                 "Diego Forlán fue elegido el mejor jugador de Sudáfrica 2010 ganando el Balón de Oro.",
                 "Su estadio nacional, el Centenario, fue declarado Monumento Histórico del Fútbol.",
-                "Mantienden el clásico del Río de la Plata, una rivalidad ancestral con Argentina.",
+                "Mantienen el clásico del Río de la Plata, una rivalidad ancestral con Argentina.",
                 "Fueron la primera selección en coronarse de forma invicta en la historia."
             ],
             "Inglaterra": [
@@ -826,12 +894,12 @@
                 "Tienen una larga e histórica maldición con las tandas de penales eliminatorias.",
                 "Su liga local, la Premier League, es la más vista y poderosa de todo el planeta.",
                 "El gol fantasma de Geoff Hurst en la final de 1966 sigue siendo discutido.",
-                "Mantienden partidos de enorme rivalidad e historia contra Argentina y Alemania.",
+                "Mantienen partidos de enorme rivalidad e historia contra Argentina y Alemania.",
                 "Su uniforme clásico se compone de camiseta blanca y pantalón azul marino."
             ],
             "Australia": [
                 "Clasificaron a su primer mundial en la edición de Alemania 1974.",
-                "Cambiaron de confederación deportiva migrando de Oceanía a Asia para elevar su nivel.",
+                "Cambiaron de confederación deportiva de Oceanía a Asia para elevar su nivel.",
                 "Se les conoce mundialmente en todas las disciplinas como los Socceroos.",
                 "Su jugador leyenda Tim Cahill anotó en tres mundiales diferentes.",
                 "Su mejor registro ha sido avanzar a los Octavos de Final en 2006 y 2022.",
@@ -862,7 +930,7 @@
                 "Se les conoce popularmente en todo el mundo como la Naranja Mecánica.",
                 "Dennis Bergkamp anotó uno de los goles más hermosos de la historia en Francia 98.",
                 "Tienen una profunda escuela formativa ligada a las academias del Ajax y PSV.",
-                "Mantienden batallas clásicas de alta fricción contra las selecciones de Alemania y Argentina.",
+                "Mantienen batallas clásicas de alta fricción contra las selecciones de Alemania y Argentina.",
                 "Su mejor registro goleador lo ostenta Robin van Persie."
             ],
             "Croacia": [
@@ -870,11 +938,11 @@
                 "Lograron una histórica e inolvidable final mundialista en Rusia 2018.",
                 "Su capitán Luka Modric ganó el Balón de Oro del Mundial en 2018.",
                 "Su camiseta es de las más famosas por su diseño de ajedrezado rojo y blanco.",
-                "Es un país con poca población que ha encadenado podios mundiales seguidos (2018 y 2022).",
+                "Es un país con poca población que ha encadenado podios mundiales seguidos.",
                 "Davor Šuker se consagró como el máximo goleador del torneo de 1998.",
                 "Son considerados los reyes de las prórrogas tras avanzar múltiples rondas en penales.",
                 "Su federación se fundó de forma independiente tras la disolución de Yugoslavia.",
-                "El mediocampo Modric-Rakovic-Brozovic marcó la época dorada de su fútbol.",
+                "El mediocampo Modric-Rakitic-Brozovic marcó la época dorada de su fútbol.",
                 "Destacan por un tremendo orgullo nacional que reflejan en cada encuentro."
             ],
             "Nigeria": [
@@ -884,7 +952,7 @@
                 "Su indumentaria para Rusia 2018 rompió récords globales de ventas por su diseño urbano.",
                 "Rashidi Yekini anotó el primer gol nigeriano en mundiales celebrándolo en la red.",
                 "Es la selección africana que más veces ha clasificado a los Octavos de Final.",
-                "Mantienden una curiosa y constante rivalidad con Argentina en fases de grupos.",
+                "Mantienen una curiosa y constante rivalidad con Argentina en fases de grupos.",
                 "Su estilo histórico combina potencia física exuberante con fantasía técnica.",
                 "Stephen Keshi fue campeón africano como jugador y posteriormente como seleccionador.",
                 "Han aportado grandes talentos a las principales ligas del fútbol europeo."
@@ -914,7 +982,7 @@
                 "Radamel Falcao García es su máximo anotador histórico en procesos generales."
             ],
             "Suiza": [
-                "Mantienden el récord histórico de no recibir un solo gol en una edición (Alemania 2006).",
+                "Mantienen el récord histórico de no recibir un solo gol en una edición (Alemania 2006).",
                 "Fueron los organizadores de la quinta edición de la Copa Mundial en 1954.",
                 "Su partido de 1954 contra Austria terminó 7-5, el de más goles en la historia.",
                 "Se les conoce comúnmente en Europa como el equipo Nati.",
@@ -959,7 +1027,7 @@
                 "Comparten la organización de la Copa del Mundo 2026 junto a Canadá y México.",
                 "Su uniforme tradicional adopta los colores de las barras y las estrellas de su bandera.",
                 "La Major League Soccer nació como consecuencia directa del éxito del mundial del 94.",
-                "Mantienden una enconada rivalidad en la zona de Concacaf contra la selección de México."
+                "Mantienen una enconada rivalidad en la zona de Concacaf contra la selección de México."
             ],
             "Gales": [
                 "Clasificaron a su primer mundial en la lejana edición de Suecia 1958.",
@@ -983,14 +1051,14 @@
                 "Su uniforme es completamente verde o blanco, reflejo directo de sus símbolos nacionales.",
                 "Han dominado la Copa del Golfo y son una potencia consolidada en la confederación asiática.",
                 "Su gobierno premió de forma histórica a los jugadores tras la victoria del 2022.",
-                "La inversión en su liga local ha atraído la mirada de todo el planeta fútbol en los últimos años."
+                "La inversión en su liga local ha atraído la mirada de todo el planeta fútbol."
             ],
             "Perú": [
                 "Estuvieron presentes en el primer mundial de la historia en Uruguay 1930.",
                 "Su generación dorada liderada por Teófilo Cubillas brilló con luz propia en México 1970.",
                 "Cubillas es uno de los máximos goleadores históricos de los mundiales con 10 tantos.",
                 "Regresaron de forma emotiva a un mundial en Rusia 2018 tras 36 años de ausencias.",
-                "Su camiseta blanca con la emblemática franja roja diagonal es considerada de las más hermosas del mundo.",
+                "Su camiseta blanca con la emblemática franja roja diagonal es considerada de las más hermosas.",
                 "En el mundial de Argentina 1978 clasificaron invictos en el primer lugar de su grupo.",
                 "Su afición ganó el premio FIFA Fan Award en 2018 por copar masivamente las ciudades rusas.",
                 "Se caracterizan históricamente por un juego de toque fino, picardía y alta posesión.",
@@ -1014,7 +1082,7 @@
                 "Su mejor registro histórico fue alcanzar los Cuartos de Final en Francia 1998.",
                 "Michael y Brian Laudrup son considerados las mayores leyendas de su historia.",
                 "Ganaron la Eurocopa de 1992 tras ingresar de emergencia por la exclusión de Yugoslavia.",
-                "Mantienden un juego basado en el orden táctico, dinámica física y mentalidad fría.",
+                "Mantienen un juego basado en el orden táctico, dinámica física y mentalidad fría.",
                 "Su uniforme clásico rojo y blanco de la marca Hummel es un ícono de diseño retro.",
                 "En el mundial de 1998 jugaron un partido memorable de cuartos perdiendo 3-2 ante Brasil.",
                 "Jon Dahl Tomasson es su máximo anotador histórico en fases finales mundialistas.",
@@ -1022,7 +1090,7 @@
                 "La unión y la fuerza colectiva marcan la pauta de todos sus procesos deportivos."
             ],
             "Túnez": [
-                "Hicieron historia en Argentina 1978 al ser el primer equipo africano en ganar un partido mundialista (3-1 a México).",
+                "Hicieron historia en Argentina 1978 al ser el primer equipo africano en ganar un partido mundialista.",
                 "Se les conoce en el panorama del fútbol internacional como las Águilas de Cartago.",
                 "Su debut oficial en la gran vitrina de la FIFA se registró en el torneo de 1978.",
                 "A pesar de sus múltiples participaciones, nunca han logrado superar la fase de grupos.",
@@ -1030,15 +1098,15 @@
                 "Su uniforme estelar adopta los colores rojo y blanco en honor a su bandera nacional.",
                 "Su estilo destaca por el orden defensivo estricto y la intensidad en el mediocampo.",
                 "La mayoría de sus futbolistas compiten en la liga local tunecina o en el fútbol de Francia.",
-                "Mantienden una enconada rivalidad en el norte de África contra Argelia y Egipto.",
-                "Su federación cuenta con un plan de modernización de estadios e infraestructura deportiva."
+                "Mantienen una enconada rivalidad en el norte de África contra Argelia y Egipto.",
+                "Su distribución táctica es sumamente rocosa y difícil de penetrar en el campo."
             ],
             "Nueva Zelanda": [
                 "Lograron su primera e histórica clasificación para el Mundial de España 1982.",
                 "Hicieron una gesta increíble en Sudáfrica 2010 al terminar invictos en la fase de grupos.",
-                "En 2010 fueron el único equipo de todo el torneo que no perdió ningún partido (3 empates).",
+                "En 2010 fueron el único equipo de todo el torneo que no perdió ningún partido.",
                 "Se les conoce popularmente en el ámbito deportivo internacional como los All Whites.",
-                "El fútbol compite directamente en popularidad contra el gigante nacional del rugby (All Blacks).",
+                "El fútbol compite directamente en popularidad contra el gigante nacional del rugby.",
                 "Su uniforme es completamente blanco, contraste directo con la vestimenta negra del rugby.",
                 "Consiguieron un empate histórico 1-1 ante la campeona vigente Italia en el año 2010.",
                 "Su delantero histórico leyenda y capitán en 2010 fue Ryan Nelsen.",
@@ -1049,9 +1117,9 @@
                 "Fueron los organizadores del séptimo mundial de la historia en el año 1962.",
                 "Consiguieron un histórico e inolvidable tercer lugar actuando como locales en el 62.",
                 "Leonel Sánchez fue uno de los máximos anotadores de su mundial con 4 goles.",
-                "Su identidad de juego agresiva y de alta presión quedó inmortalizada con Marcelo Bielsa y Jorge Sampaoli.",
+                "Su identidad de juego agresiva quedó inmortalizada con esquemas de alta presión.",
                 "Se les conoce en todo el continente americano como la Roja.",
-                "La generación dorada liderada por Alexis Sánchez y Arturo Vidal ganó dos Copas América seguidas.",
+                "La generación dorada liderada por Alexis y Arturo Vidal ganó dos Copas América.",
                 "Protagonizaron junto a Italia el partido ultra físico de 1962 conocido como la Batalla de Santiago.",
                 "Su goleador histórico en eliminatorias de la Conmebol es el delantero Iván Zamorano.",
                 "El Estadio Nacional de Santiago es el templo principal e histórico de la selección.",
@@ -1061,35 +1129,35 @@
                 "Su época de oro se dio en los años 30 con el legendario equipo conocido como el Wunderteam.",
                 "Alcanzaron el tercer lugar del mundo en el torneo de Suiza 1954.",
                 "Su partido de 1954 contra Suiza terminó 7-5, el de mayor cantidad de goles registrados.",
-                "Su máximo ídolo de todos los tiempos es el delantero Matthias Sindelar, apodado 'El Mozart del fútbol'.",
-                "Se ausentaron del mundial de 1938 debido a la anexión del país por parte de la Alemania nazi.",
-                "Mantienden un clásico europeo de enorme rivalidad histórica frente a Hungría.",
+                "Su máximo ídolo es Matthias Sindelar, apodado 'El Mozart del fútbol'.",
+                "Se ausentaron del mundial de 1938 debido a coyunturas geopolíticas de la época.",
+                "Mantienen un clásico europeo de enorme rivalidad histórica frente a Hungría.",
                 "El uniforme tradicional combina de forma muy elegante camiseta blanca con pantalón negro.",
                 "En el Mundial de Argentina 1978 protagonizaron el 'Milagro de Córdoba' venciendo a Alemania.",
                 "Su referente moderno de mayor impacto internacional ha sido el polivalente David Alaba.",
-                "La Bundesliga austriaca ha servido como un gran trampolín para sus jóvenes talentos."
+                "La estructura de formación local provee un juego dinámico y colectivo coordinado."
             ],
             "Egipto": [
                 "Fue el primer país de todo el continente africano en disputar un mundial (Italia 1934).",
-                "Su guardameta Essam El-Hadary es el jugador más longevo en jugar un mundial con 45 años en 2018.",
+                "Su guardameta Essam El-Hadary es el jugador más longevo en jugar un mundial con 45 años.",
                 "Se les conoce en todo el mundo del deporte como los Faraones.",
                 "Son los reyes absolutos de la Copa Africana de Naciones con un récord de 7 títulos.",
-                "Su máxima deidad futbolística moderna es el delantero del Liverpool Mohamed Salah.",
+                "Su máxima deidad futbolística moderna es el delantero estrella Mohamed Salah.",
                 "Abdulrahman Fawzi fue el primer africano en anotar un gol en la historia de los mundiales.",
-                "El fútbol desata una pasión extrema en el país, dividida entre los clubes Al Ahly y Zamalek.",
+                "El fútbol desata una pasión extrema en el país, dividida entre grandes clubes locales.",
                 "Su uniforme clásico es rojo brillante con detalles blancos y negros.",
-                "A pesar de su dominio continental, solo han logrado clasificar a tres mundiales.",
-                "Su fortín para los compromisos de eliminatorias suele ser el Estadio Internacional de El Cairo."
+                "A pesar de su tremendo dominio continental, solo han logrado clasificar a tres mundiales.",
+                "Su fortín para los compromisos de eliminatorias suele ser el Estadio de El Cairo."
             ],
             "China": [
                 "Lograron su histórica y única clasificación mundialista para el torneo de Corea-Japón 2002.",
                 "Fueron dirigidos en su única experiencia por el trotamundos serbio Bora Milutinović.",
                 "En 2002 compartieron un grupo sumamente duro ante Brasil, Turquía y Costa Rica.",
-                "El gobierno nacional tiene un plan estratégico estatal para convertirse en superpotencia de fútbol.",
+                "Mantiene un plan estratégico estatal para potenciar significativamente su fútbol base.",
                 "El legendario zaguero Sun Jihai fue de sus primeros jugadores en brillar en la Premier League.",
                 "Su uniforme estelar adopta el rojo brillante y amarillo, reflejo de su bandera nacional.",
-                "A pesar del tremendo apoyo económico corporativo, les ha costado regresar a una fase final.",
-                "La Superliga China experimentó un auge financiero sin precedentes contratando estrellas mundiales.",
+                "A pesar del apoyo corporativo local, trabajan intensamente para regresar a una fase final.",
+                "Su liga local experimentó una etapa de alta resonancia contratando estrellas mundiales.",
                 "Tienen una rivalidad asiática de enorme tensión frente a Corea del Sur y Japón.",
                 "Su federación fue fundada originalmente en 1924 y se afilió a la FIFA en 1931."
             ],
@@ -1097,84 +1165,84 @@
                 "Deslumbraron al mundo en su debut en 2002 venciendo a la campeona vigente Francia.",
                 "En su primer mundial llegaron de forma espectacular hasta los Cuartos de Final.",
                 "Se les conoce internacionalmente en el fútbol como los Leones de la Teranga.",
-                "Su actual director técnico, Aliou Cissé, fue el capitán del equipo histórico de 2002.",
+                "Su director técnico, Aliou Cissé, fue el capitán del equipo histórico de 2002.",
                 "Se coronaron campeones de África por primera vez en su historia en el año 2022.",
-                "Su jugador estrella Sadio Mané es considerado uno de los grandes astros africanos de la época.",
-                "En Rusia 2018 fueron eliminados de forma insólita por el criterio de tarjetas de 'Juego Limpio'.",
+                "Su jugador estrella Sadio Mané es considerado uno de los grandes astros africanos.",
+                "En Rusia 2018 fueron eliminados de forma insólita por el criterio de tarjetas.",
                 "Su estilo conjuga un despliegue físico portentoso con una velocidad letal por las bandas.",
                 "El recordado Papa Bouba Diop anotó el gol histórico del triunfo contra Francia en 2002.",
-                "La enorme mayoría de sus seleccionados militan en las ligas top de Inglaterra, Francia e Italia."
+                "La enorme mayoría de sus seleccionados militan en las ligas más importantes de Europa."
             ],
             "Serbia": [
                 "Heredó los registros estadísticos históricos de las antiguas selecciones de Yugoslavia.",
                 "Son conocidos popularmente en el entorno del fútbol europeo como las Águilas Blancas.",
                 "Destacan históricamente por producir mediocampistas de tremendo físico y fina técnica.",
                 "En Sudáfrica 2010 consiguieron una victoria histórica de prestigio venciendo 1-0 a Alemania.",
-                "Mantienden una intensa rivalidad balcánica de alta tensión frente a Croacia y Suiza.",
+                "Mantienen una intensa rivalidad balcánica de alta tensión frente a Croacia y Suiza.",
                 "Su uniforme clásico es completamente rojo con detalles azules y blancos.",
                 "El legendario Dragan Stojković es considerado uno de los mayores mitos de su fútbol.",
-                "La cantera del Estrella Roja y el Partizán de Belgrado nutre constantemente a Europa.",
-                "Su juego aéreo y potencia física son de sus principales argumentos tácticos.",
+                "La cantera local nutre constantemente a los clubes más importantes de Europa.",
+                "Su juego aéreo y potencia física son de sus principales argumentos de peso táctico.",
                 "Compiten bajo el nombre exclusivo de Serbia desde el año 2006 de forma independiente."
             ],
             "Camerún": [
                 "Hicieron historia en Italia 1990 al ser la primera selección africana en llegar a Cuartos.",
-                "El mítico delantero Roger Milla anotó 4 goles en el 90 celebrándolo con su famoso baile en el córner.",
+                "El delantero Roger Milla anotó 4 goles celebrándolo con su famoso baile en el córner.",
                 "Se les conoce en todo el planeta fútbol como los Leones Indomables.",
-                "Su actual presidente de la federación es su máxima leyenda histórica, Samuel Eto'o.",
+                "Su presidente de la federación es su máxima leyenda histórica, Samuel Eto'o.",
                 "En el Mundial de España 1982 quedaron eliminados de forma invicta con tres empates.",
-                "Son famosos por utilizar uniformes revolucionarios, como camisetas sin mangas en 2002.",
+                "Son famosos por utilizar indumentarias revolucionarias en esquemas de diseño deportivo.",
                 "Eto'o es el único jugador africano en disputar cuatro Copas del Mundo distintas.",
                 "Tienen una rivalidad continental de alta tensión frente a Nigeria y Egipto.",
                 "Su victoria 1-0 ante la Argentina de Maradona en el partido inaugural del 90 sacudió al planeta.",
-                "Es una de las naciones africanas que más talentos ha exportado al fútbol de Europa."
+                "Es una de las naciones africanas que más talentos ha exportado al fútbol internacional."
             ],
             "Costa Rica": [
                 "Firmaron la mayor hazaña de Centroamérica al llegar a Cuartos de Final en Brasil 2014.",
-                "En 2014 clasificaron primeros en el 'Grupo de la Muerte' ante tres campeones mundiales (Uruguay, Italia e Inglaterra).",
-                "Su guardameta Keylor Navas fue la gran figura del mundial de 2014, saltando al Real Madrid.",
+                "En 2014 clasificaron primeros en el grupo ante Uruguay, Italia e Inglaterra.",
+                "Su guardameta Keylor Navas fue la gran figura, saltando de inmediato al Real Madrid.",
                 "Hicieron su gran debut histórico en la Copa del Mundo en la edición de Italia 1990.",
                 "Se les conoce cariñosamente en la Concacaf como los Ticos o la Sele.",
                 "El técnico serbio Bora Milutinović comandó la hazaña de clasificar a octavos en 1990.",
                 "Su uniforme tradicional se compone de camiseta roja, pantalón azul y medias blancas.",
-                "Bryan Ruiz y Celso Borges marcan la época dorada de la veteranía de su fútbol.",
-                "Mantienden el clásico centroamericano de alta intensidad frente a Honduras y México.",
+                "Su bloque colectivo destaca por un temperamento táctico sumamente disciplinado.",
+                "Mantienen el clásico centroamericano de alta intensidad frente a Honduras.",
                 "El lema nacional 'Pura Vida' acompaña siempre la identidad alegre de su delegación."
             ],
             "Suecia": [
                 "Alcanzaron la gran final del mundo en 1958 actuando como el país anfitrión.",
-                "Cayeron en la final de 58 ante el Brasil de Pelé, en el partido con más goles en una final (5-2).",
+                "Cayeron en la final de 58 ante el Brasil de Pelé en un duelo repleto de anotaciones.",
                 "Consiguieron un brillante y recordado tercer puesto en el Mundial de Estados Unidos 1994.",
-                "Su indumentaria es de las más reconocibles con los colores amarillo brillante y azul de su bandera.",
+                "Su indumentaria es de las más reconocibles con los colores amarillo brillante y azul.",
                 "Su máximo e histórico artillero moderno de impacto global ha sido Zlatan Ibrahimović.",
                 "En la edición de 1950 en Brasil lograron también un valioso tercer lugar.",
-                "Mantienden una histórica rivalidad nórdica de alta tensión frente a Dinamarca.",
+                "Mantienen una histórica rivalidad nórdica de alta tensión frente a Dinamarca.",
                 "Su estilo combina tradicionalmente un estricto orden defensivo con gran poderío físico.",
-                "Thomas Brolin y Martin Dahlin lideraron el letal ataque de la mítica plantilla del 94.",
+                "Grandes figuras históricas lideraron el letal ataque de la mítica plantilla del 94.",
                 "Su federación de fútbol es de las fundadoras de la UEFA, instituida en 1904."
             ],
             "Polonia": [
                 "Consiguieron un histórico tercer lugar del mundo en dos ediciones: 1974 y 1982.",
                 "Grzegorz Lato ganó la Bota de Oro como máximo goleador en 1974 con 7 tantos.",
-                "Su guardameta Jan Tomaszewski es famoso por detener dos penales en el torneo de 1974.",
-                "Su delantero Robert Lewandowski es considerado uno de los mejores atacantes modernos del planeta.",
-                "Vivieron su época dorada bajo el mando técnico del estratega Kazimierz Górski.",
+                "Su escuadra es famosa por planteamientos colectivos de alta fricción física.",
+                "Su delantero Robert Lewandowski es considerado uno de los mejores atacantes modernos.",
+                "Vivieron su época dorada bajo el mando técnico de grandes estrategas locales.",
                 "Su uniforme clásico luce los colores blanco nítido y rojo de sus símbolos nacionales.",
                 "En el mundial de 1982 derrotaron a Francia para quedarse con la medalla de bronce.",
                 "Se caracterizan por un fútbol de transiciones rápidas y gran fortaleza en el juego aéreo.",
-                "Zbigniew Boniek fue la gran estrella que brilló en el mundial de España 1982.",
-                "La Ekstraklasa local ha sido la cuna inicial de formación para todas sus figuras."
+                "Grandes estrellas históricas marcaron el ritmo competitivo de su edad de oro.",
+                "La liga local ha servido de base fundamental para el despegue de sus figuras."
             ],
             "Ghana": [
-                "Estuvieron a un paso de las semifinales en Sudáfrica 2010, eliminados en un penal agónico ante Uruguay.",
+                "Estuvieron a un paso de las semifinales en Sudáfrica 2010, eliminados de forma agónica.",
                 "Se les conoce a nivel internacional en el panorama deportivo como las Estrellas Negras.",
-                "Asamoah Gyan es el máximo goleador africano en la historia de los mundiales con 6 anotaciones.",
+                "Asamoah Gyan es el máximo goleador africano en la historia de los mundiales.",
                 "Hicieron su gran debut mundialista en la edición de Alemania 2006 avanzando a octavos.",
                 "En 2010 igualaron la gesta de Camerún y Senegal al meterse entre los ocho mejores.",
-                "Su uniforme blanco incorpora la icónica estrella negra de su bandera en el centro del pecho.",
+                "Su uniforme blanco incorpora la icónica estrella negra de su bandera en el pecho.",
                 "La velocidad física exhuberante y el ritmo competitivo marcan la pauta de su estilo.",
-                "Mantienden duelos de alta rivalidad en el continente africano contra Nigeria y Costa de Marfil.",
-                "Su plantilla de 2010 contaba con una inmensa base de campeones mundiales Sub-20.",
+                "Mantienen duelos de alta rivalidad en el continente africano contra Nigeria.",
+                "Su plantilla de 2010 contaba con una inmensa base de campeones juveniles internacionales.",
                 "Han aportado mediocampistas de leyenda a los clubes más grandes de toda Europa."
             ]
         };
@@ -1186,15 +1254,14 @@
             "Francia": ["25/06 vs Canadá 🏟️ Vancouver", "29/06 Octavos de Final ⏰ Confirmar"]
         };
 
-        // Arreglo estático de mascotas m1, m2 y m3
         const poolMascotas = ["m1.png", "m2.png", "m3.png"];
-        let mascotaAsignadaSesion = "m1.png"; // Se congela por inicio de sesión
+        let mascotaAsignadaSesion = "m1.png";
 
         let usuarioLogueado = "";
         let modalEsEditable = true;
         let modalNombreAmigoActivo = "";
 
-        // --- SISTEMA DRAG AND DROP NATIVO ---
+        // --- MANEJADOR DRAG AND DROP NATIVO ---
         let bloqueArrastrado = null;
         let distX = 0, distY = 0;
 
@@ -1219,7 +1286,7 @@
             document.removeEventListener('mouseup', soltarMesa);
         }
 
-        // --- MOTOR CLICK SPARK PREMIUM (REACTBITS STYLE) ---
+        // --- MOTOR CLICK SPARK ---
         const canvas = document.getElementById('spark-canvas');
         const ctx = canvas.getContext('2d');
         let chispas = [];
@@ -1266,7 +1333,6 @@
         }
         renderizadorChispas();
 
-        // --- ROTACIÓN DEL TEXTO DEL NOTICIERO (MANTENIENDO LA MASCOTA FIJA) ---
         function actualizarTitularesNoticiero() {
             const titulares = [
                 "🔥 ¡Atención! Saúl lidera la quiniela con mano de hierro en este momento.",
@@ -1296,12 +1362,11 @@
                 errorMsg.style.display = 'none';
                 document.getElementById('login-clave').value = "";
                 
-                // Quitar fondo del login y activar layout
                 document.body.classList.remove('login-bg');
                 document.getElementById('seccion-login').style.display = 'none';
                 document.getElementById('seccion-dashboard').style.display = 'grid';
                 
-                // ASIGNAR MASCOTA FIJA EXCLUSIVA PARA ESTA SESIÓN (m1.png, m2.png, m3.png)
+                // Fijar mascota aleatoria estable para toda la sesión
                 mascotaAsignadaSesion = poolMascotas[Math.floor(Math.random() * poolMascotas.length)];
                 document.getElementById('foto-mascota').src = mascotaAsignadaSesion;
 
@@ -1309,7 +1374,6 @@
                 dibujarAlineacionCancha();
                 actualizarTablaGeneral();
 
-                // Activar el motor del texto del noticiero cada 45 segundos
                 actualizarTitularesNoticiero();
                 setInterval(actualizarTitularesNoticiero, 45000);
             } else {
@@ -1350,7 +1414,6 @@
             flag.src = `https://flagcdn.com/${banderasPaises[pais]}.svg`;
             flag.style.display = "block";
 
-            // Extracción e inyección simultánea de 3 datos curiosos aleatorios y diferentes desde el pool completo de 10
             const bloqueCuriosidad = document.getElementById('curiosidad-fav');
             bloqueCuriosidad.innerHTML = "";
             let poolCopia = [...(poolCuriosidades[pais] || [`¡Sabías que ${pais} compite con el máximo orgullo en esta edición del torneo mundial!`])];
