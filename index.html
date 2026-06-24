@@ -19,16 +19,15 @@
             justify-content: center;
             align-items: center;
             background-color: #1e4620;
-            /* Fondo de césped base */
             background-image: 
                 radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
                 linear-gradient(60deg, #1b4d22 25%, #225e2a 25%, #225e2a 50%, #1b4d22 50%, #1b4d22 75%, #225e2a 75%, #225e2a);
             background-size: 40px 40px;
             overflow-x: hidden;
             position: relative;
+            padding: 20px 0;
         }
 
-        /* Capa interactiva que reacciona al movimiento del mouse simulando movimiento de grama */
         .grama-interactiva {
             position: fixed;
             top: -10%;
@@ -43,16 +42,20 @@
 
         /* --- CONTENEDORES PRINCIPALES --- */
         .contenedor {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 100%;
+            width: 92%;
             max-width: 500px;
             z-index: 10;
             text-align: center;
-            border: 4px solid #ffd700; /* Borde dorado copa */
-            display: none; /* Se controla por JS */
+            border: 4px solid #ffd700;
+            display: none;
+        }
+
+        .contenedor.ancho {
+            max-width: 900px;
         }
 
         .activo {
@@ -64,7 +67,7 @@
             margin-bottom: 20px;
             font-size: 28px;
             text-transform: uppercase;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         h2 {
@@ -80,11 +83,6 @@
             border: 2px solid #ccc;
             border-radius: 8px;
             font-size: 16px;
-        }
-
-        .campo-login:focus {
-            border-color: #1b4d22;
-            outline: none;
         }
 
         button {
@@ -114,7 +112,7 @@
             display: none;
         }
 
-        /* --- TABLA DE CLASIFICACIÓN GENERAL --- */
+        /* --- TABLA DE POSICIONES --- */
         .tabla-puntos {
             width: 100%;
             border-collapse: collapse;
@@ -133,25 +131,18 @@
         .tabla-puntos th {
             background-color: #1b4d22;
             color: white;
-            text-transform: uppercase;
         }
 
-        .tabla-puntos tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .podio {
-            font-weight: bold;
-            color: #ffd700; /* Oro para el líder */
-        }
-
+        .podio { font-weight: bold; color: #ffd700; }
+        
         .usuario-actual-info {
             background: #e8f5e9;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #1b4d22;
             font-weight: bold;
+            font-size: 16px;
         }
 
         .botones-menu {
@@ -159,23 +150,78 @@
             gap: 10px;
         }
 
-        .btn-secundario {
-            background: #555;
+        .btn-secundario { background: #555; }
+        .btn-secundario:hover { background: #666; }
+
+        /* --- MALLA DE GRUPOS DE LA QUINIELA --- */
+        .contenedor-grupos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+            background: #fafafa;
         }
-        .btn-secundario:hover {
-            background: #666;
+
+        .tarjeta-grupo {
+            background: #fff;
+            border: 2px solid #1b4d22;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+
+        .tarjeta-grupo h3 {
+            background: #1b4d22;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .lista-equipos {
+            list-style: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .lista-equipos li {
+            padding: 3px 0;
+            border-bottom: 1px dotted #eee;
+        }
+
+        .selector-clasificado {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            font-size: 13px;
+        }
+
+        .label-q {
+            font-size: 12px;
+            font-weight: bold;
+            color: #1b4d22;
+            display: block;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Capa que se moverá sutilmente siguiendo el cursor para simular la grama -->
     <div class="grama-interactiva" id="grama"></div>
 
-    <!-- PANTALLA 1: LOGIN -->
     <div class="contenedor activo" id="pantalla-login">
         <h1>🏆 Quiniela Amigos 🏆</h1>
-        <p style="margin-bottom: 20px; color: #666;">Introduce tu usuario y tu país del mundial para ingresar</p>
+        <p style="margin-bottom: 20px; color: #666;">Introduce tu usuario y tu país para ingresar</p>
         
         <select id="login-usuario" class="campo-login">
             <option value="">Selecciona tu usuario...</option>
@@ -194,16 +240,12 @@
         <p class="error-msg" id="error-login">Usuario o clave (país) incorrectos.</p>
     </div>
 
-    <!-- PANTALLA 2: DASHBOARD / TABLA DE CLASIFICACIÓN -->
     <div class="contenedor" id="pantalla-dashboard">
         <h1>Quiniela del Mundial</h1>
         
-        <div class="usuario-actual-info" id="info-sesion">
-            Bienvenido, Usuario
-        </div>
+        <div class="usuario-actual-info" id="info-sesion"></div>
 
         <h2>📊 Tabla General de Posiciones</h2>
-        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Puntajes simulados (Acierto: 100pts | Error: -20pts)</p>
         
         <table class="tabla-puntos">
             <thead>
@@ -213,9 +255,7 @@
                     <th>Puntos</th>
                 </tr>
             </thead>
-            <tbody id="cuerpo-tabla">
-                <!-- Se rellena con JS -->
-            </tbody>
+            <tbody id="cuerpo-tabla"></tbody>
         </table>
 
         <div class="botones-menu">
@@ -224,51 +264,105 @@
         </div>
     </div>
 
-    <!-- PANTALLA 3: FORMULARIO DE GRUPOS (MUESTRA PREVIA) -->
-    <div class="contenedor" id="pantalla-quiniela" style="max-width: 600px;">
+    <div class="contenedor ancho" id="pantalla-quiniela">
         <h1>Configurar Mis Pronósticos</h1>
         <div class="usuario-actual-info" id="info-sesion-q"></div>
         
-        <p style="margin-bottom: 15px; color: #444;">Próximamente desplegaremos las listas completas desde el Grupo A hasta el Grupo L para guardar tus clasificados.</p>
+        <p style="margin-bottom: 15px; color: #555;">Selecciona tus dos clasificados por cada grupo del mundial (A-L):</p>
         
-        <button onclick="irADashboard()" class="btn-secundario">Volver a la Tabla</button>
+        <div class="contenedor-grupos" id="bloque-grupos"></div>
+        
+        <div class="botones-menu">
+            <button onclick="guardarQuiniela()">💾 Guardar Predicciones</button>
+            <button onclick="irADashboard()" class="btn-secundario">Volver</button>
+        </div>
     </div>
 
     <script>
-        /* --- BASE DE DATOS LOCAL EN CÓDIGO (Usuarios y Claves) --- */
-        const credenciales = {
-            "Saul": "Argentina",
-            "Jorge": "España",
-            "Osmel": "Brasil",
-            "Edgar": "Francia",
-            "Guillermo": "Alemania",
-            "Francisco": "Portugal",
-            "Gerardo": "Italia"
+        // Estructura de Grupos Oficiales (48 equipos ficticios/reales distribuidos de A a L)
+        const gruposMundial = {
+            "A": ["Argentina", "Francia", "Marruecos", "Canadá"],
+            "B": ["España", "Alemania", "Japón", "Ecuador"],
+            "C": ["Brasil", "Portugal", "Corea del Sur", "Jamaica"],
+            "D": ["Italia", "Bélgica", "Argelia", "Honduras"],
+            "E": ["Uruguay", "Inglaterra", "Australia", "Irak"],
+            "F": ["Países Bajos", "Croacia", "Nigeria", "Panamá"],
+            "G": ["Colombia", "Suiza", "Irán", "Sudáfrica"],
+            "H": ["Estados Unidos", "Gales", "Arabia Saudita", "Perú"],
+            "I": ["México", "Dinamarca", "Túnez", "Nueva Zelanda"],
+            "J": ["Chile", "Austria", "Egipto", "China"],
+            "K": ["Senegal", "Serbia", "Camerún", "Costa Rica"],
+            "L": ["Suecia", "Polonia", "Ghana", "Canadá"]
         };
 
-        // Datos iniciales de ejemplo para la tabla de clasificación
-        const puntajesIniciales = {
-            "Saul": 500,
-            "Jorge": 420,
-            "Osmel": 380,
-            "Edgar": 300,
-            "Guillermo": 260,
-            "Francisco": 180,
-            "Gerardo": 100
+        // Resultados Oficiales Simulados (Para el cálculo de puntos Arcade)
+        const resultadosReales = {
+            "A": { "1ro": "Argentina", "2do": "Francia" },
+            "B": { "1ro": "España", "2do": "Alemania" },
+            "C": { "1ro": "Brasil", "2do": "Portugal" },
+            "D": { "1ro": "Italia", "2do": "Bélgica" },
+            "E": { "1ro": "Uruguay", "2do": "Inglaterra" },
+            "F": { "1ro": "Países Bajos", "2do": "Croacia" },
+            "G": { "1ro": "Colombia", "2do": "Suiza" },
+            "H": { "1ro": "Estados Unidos", "2do": "Gales" },
+            "I": { "1ro": "México", "2do": "Dinamarca" },
+            "J": { "1ro": "Chile", "2do": "Austria" },
+            "K": { "1ro": "Senegal", "2do": "Serbia" },
+            "L": { "1ro": "Suecia", "2do": "Polonia" }
+        };
+
+        const credenciales = {
+            "Saul": "Argentina", "Jorge": "España", "Osmel": "Brasil",
+            "Edgar": "Francia", "Guillermo": "Alemania", "Francisco": "Portugal", "Gerardo": "Italia"
         };
 
         let usuarioLogueado = "";
 
-        /* --- EFECTO VISUAL: MOVIMIENTO DE GRAMA AL MOVER EL MOUSE --- */
+        // Inicializar el diseño de los grupos A-L al cargar
+        function inicializarGruposFormulario() {
+            const contenedor = document.getElementById('bloque-grupos');
+            contenedor.innerHTML = "";
+
+            Object.keys(gruposMundial).forEach(letra => {
+                const equipos = gruposMundial[letra];
+                
+                const tarjeta = document.createElement('div');
+                tarjeta.classList.add('tarjeta-grupo');
+                
+                let opcionesEquipos = `<option value="">-- Selecciona --</option>`;
+                equipos.forEach(eq => {
+                    opcionesEquipos += `<option value="${eq}">${eq}</option>`;
+                });
+
+                tarjeta.innerHTML = `
+                    <h3>Grupo ${letra}</h3>
+                    <ul class="lista-equipos">
+                        <li>⚽ ${equipos[0]}</li>
+                        <li>⚽ ${equipos[1]}</li>
+                        <li>⚽ ${equipos[2]}</li>
+                        <li>⚽ ${equipos[3]}</li>
+                    </ul>
+                    <span class="label-q">🥇 1° Clasificado:</span>
+                    <select class="selector-clasificado" id="grupo-${letra}-1ro">
+                        ${opcionesEquipos}
+                    </select>
+                    <span class="label-q">🥈 2° Clasificado:</span>
+                    <select class="selector-clasificado" id="grupo-${letra}-2do">
+                        ${opcionesEquipos}
+                    </select>
+                `;
+                contenedor.appendChild(tarjeta);
+            });
+        }
+
+        // Mouse Move Effect
         document.addEventListener('mousemove', (e) => {
             const grama = document.getElementById('grama');
-            // Calcula un movimiento sutil basado en la posición del cursor
             const moverX = (e.clientX / window.innerWidth - 0.5) * 30;
             const moverY = (e.clientY / window.innerHeight - 0.5) * 30;
             grama.style.transform = `translate(${moverX}px, ${moverY}px)`;
         });
 
-        /* --- LÓGICA DE CONTROL DE SESIÓN --- */
         function intentarLogin() {
             const usuario = document.getElementById('login-usuario').value;
             const clave = document.getElementById('login-clave').value.trim();
@@ -277,8 +371,7 @@
             if (credenciales[usuario] && credenciales[usuario].toLowerCase() === clave.toLowerCase()) {
                 usuarioLogueado = usuario;
                 errorMsg.style.display = 'none';
-                document.getElementById('login-clave').value = ""; // Limpiar clave
-                
+                document.getElementById('login-clave').value = "";
                 irADashboard();
             } else {
                 errorMsg.style.display = 'block';
@@ -290,41 +383,94 @@
             cambiarPantalla('pantalla-login');
         }
 
-        /* --- NAVEGACIÓN Y RENDERIZADO --- */
         function cambiarPantalla(idPantalla) {
             document.getElementById('pantalla-login').classList.remove('activo');
             document.getElementById('pantalla-dashboard').classList.remove('activo');
             document.getElementById('pantalla-quiniela').classList.remove('activo');
-            
             document.getElementById(idPantalla).classList.add('activo');
         }
 
         function irADashboard() {
-            document.getElementById('info-sesion').innerText = `⚽ Sesión de: ${usuarioLogueado} (Clave: ${credenciales[usuarioLogueado]})`;
+            document.getElementById('info-sesion').innerText = `👋 Jugador activo: ${usuarioLogueado}`;
             actualizarTablaPosiciones();
             cambiarPantalla('pantalla-dashboard');
         }
 
         function irAFormulario() {
-            document.getElementById('info-sesion-q').innerText = `Formulario de ${usuarioLogueado}`;
+            document.getElementById('info-sesion-q').innerText = `Predicciones de: ${usuarioLogueado}`;
+            inicializarGruposFormulario();
+            cargarQuinielaGuardada();
             cambiarPantalla('pantalla-quiniela');
+        }
+
+        // Lógica de guardado nativo en navegador
+        function guardarQuiniela() {
+            let userPredictions = {};
+            
+            Object.keys(gruposMundial).forEach(letra => {
+                const prim = document.getElementById(`grupo-${letra}-1ro`).value;
+                const seg = document.getElementById(`grupo-${letra}-2do`).value;
+                userPredictions[letra] = { "1ro": prim, "2do": seg };
+            });
+
+            localStorage.setItem(`quiniela_${usuarioLogueado}`, JSON.stringify(userPredictions));
+            alert("¡Predicciones guardadas con éxito en este dispositivo!");
+            irADashboard();
+        }
+
+        function cargarQuinielaGuardada() {
+            const datos = localStorage.getItem(`quiniela_${usuarioLogueado}`);
+            if (datos) {
+                const predicciones = JSON.parse(datos);
+                Object.keys(predicciones).forEach(letra => {
+                    if(document.getElementById(`grupo-${letra}-1ro`)) {
+                        document.getElementById(`grupo-${letra}-1ro`).value = predicciones[letra]["1ro"];
+                        document.getElementById(`grupo-${letra}-2do`).value = predicciones[letra]["2do"];
+                    }
+                });
+            }
+        }
+
+        // Sistema de Puntos Arcade (+100 acierto, -20 error)
+        function calcularPuntosUsuario(nombreUsuario) {
+            const datos = localStorage.getItem(`quiniela_${nombreUsuario}`);
+            let puntos = 0;
+
+            if (!datos) return 0; // Si no ha rellenado nada, empieza en 0
+            
+            const predicciones = JSON.parse(datos);
+
+            Object.keys(resultadosReales).forEach(letra => {
+                const pred = predicciones[letra];
+                const real = resultadosReales[letra];
+
+                if (pred) {
+                    // Verificar 1er puesto
+                    if (pred["1ro"] === real["1ro"]) puntos += 100;
+                    else if (pred["1ro"] !== "") puntos -= 20;
+
+                    // Verificar 2do puesto
+                    if (pred["2do"] === real["2do"]) puntos += 100;
+                    else if (pred["2do"] !== "") puntos -= 20;
+                }
+            });
+            return puntos;
         }
 
         function actualizarTablaPosiciones() {
             const cuerpo = document.getElementById('cuerpo-tabla');
             cuerpo.innerHTML = "";
 
-            // Convertir objeto a array y ordenar de mayor a menor puntaje
-            const listaOrdenada = Object.keys(puntajesIniciales)
-                .map(nombre => ({ nombre: nombre, puntos: puntajesIniciales[nombre] }))
-                .sort((a, b) => b.puntos - a.puntos);
+            // Calcular dinámicamente los puntajes de los 7 amigos basados en sus respuestas guardadas
+            const listaOrdenada = Object.keys(credenciales).map(nombre => {
+                return { nombre: nombre, puntos: calcularPuntosUsuario(nombre) };
+            }).sort((a, b) => b.puntos - a.puntos);
 
             listaOrdenada.forEach((amigo, indice) => {
                 const fila = document.createElement('tr');
                 
-                // Resalta la fila si es la del usuario actual
                 if (amigo.nombre === usuarioLogueado) {
-                    fila.style.backgroundColor = "#d0e8d3";
+                    fila.style.backgroundColor = "#c8e6c9";
                     fila.style.fontWeight = "bold";
                 }
 
