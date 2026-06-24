@@ -1333,15 +1333,114 @@
         }
         renderizadorChispas();
 
-        function actualizarTitularesNoticiero() {
-            const titulares = [
-                "🔥 ¡Atención! Saúl lidera la quiniela con mano de hierro en este momento.",
-                "⚠️ Alerta de empate en la zona media entre Jorge y Osmel con los mismos aciertos parciales.",
-                "⚽ ¡Increíble! Nadie ha fallado el primer clasificado del Grupo A hasta la fecha.",
-                "📉 Última hora: Gerardo se encuentra en el fondo de la tabla intentando remontar."
-            ];
-            document.getElementById('texto-noticia').innerText = titulares[Math.floor(Math.random() * titulares.length)];
+        // --- SISTEMA INTERACTIVO DE NOTICIAS EXPANDIDO (15 SITUACIONES) ---
+function actualizarTitularesNoticiero() {
+    // 1. Obtener y ordenar los datos reales de la tabla de posiciones
+    const listaOrdenada = Object.keys(credenciales).map(nombre => {
+        const datosUsuario = calcularAciertosUsuario(nombre);
+        // Verificamos si el usuario ha guardado alguna predicción en LocalStorage
+        const tieneRegistro = localStorage.getItem(`quiniela_${nombre}`) !== null;
+        return { 
+            nombre: nombre, 
+            datos: datosUsuario,
+            registrado: tieneRegistro
+        };
+    }).sort((a, b) => b.datos.total - a.datos.total);
+
+    const lider = listaOrdenada[0];
+    const segundo = listaOrdenada[1];
+    const penultimo = listaOrdenada[listaOrdenada.length - 2];
+    const colista = listaOrdenada[listaOrdenada.length - 1];
+    
+    let titularesValidos = [];
+
+    // [Situación 9] Identifica automáticamente quién no ha registrado nada
+    const sinRegistro = listaOrdenada.filter(amigo => !amigo.registrado).map(amigo => amigo.nombre);
+    if (sinRegistro.length > 0) {
+        titularesValidos.push(`👀 Epa, ¡pónganse las pilas! ${sinRegistro.join(', ')} no han registrado ni un bicho en la quiniela. ¿Están durmiendo en los laureles?`);
+    }
+
+    // [Situación 5] Si algún jugador ha logrado acertar todos los grupos perfectos posibles (12 grupos)
+    const perfectoAbsoluto = listaOrdenada.find(amigo => amigo.datos.perfectos === 12);
+    if (perfectoAbsoluto) {
+        titularesValidos.push(`🔮 ¡Paren todo! ${perfectoAbsoluto.nombre} metió todos los grupos perfectos. ¡Ese lo que es un brujo o tiene el mundial arreglado!`);
+    }
+
+    // [Situación 6] Si algún jugador NO ha logrado acertar ninguno de los grupos posibles (registrado pero con 0 pts)
+    const ceroAciertos = listaOrdenada.find(amigo => amigo.registrado && amigo.datos.total === 0);
+    if (ceroAciertos) {
+        titularesValidos.push(`🚨 ¡Ay papá! ${ceroAciertos.nombre} lleva la brújula totalmente dañada: ¡cero aciertos! No le pega un tiro al piso.`);
+    }
+
+    // --- EVALUACIÓN DE POSICIONES SI HAY PUNTOS EN JUEGO ---
+    if (lider.datos.total > 0) {
+        
+        // Verificar si el primer puesto es en solitario
+        const liderSolitario = lider.datos.total > segundo.datos.total;
+
+        if (liderSolitario) {
+            const diferenciaConSegundo = lider.datos.total - segundo.datos.total;
+
+            // [Situación 2] Primer puesto en solitario pero con un punto de diferencia del 2do lugar
+            if (diferenciaConSegundo === 1) {
+                titularesValidos.push(`🔥 ¡Pura candela! ${lider.nombre} va mandando en la punta, pero ${segundo.nombre} le va pisando los talones a un solo punto. ¡No te descuides!`);
+            }
+            // [Situación 3] Primer puesto en solitario y los demas tienen mas de 3 puntos de diferencia
+            else if (diferenciaConSegundo > 3) {
+                titularesValidos.push(`🚀 ¡Na' guará! ${lider.nombre} se escapó en solitario y les sacó más de 3 puntos de ventaja. ¡Véanle la placa si pueden!`);
+            }
+            // [Situación 1] Primer puesto en solitario (Diferencia estándar de 2 o 3 puntos)
+            else {
+                titularesValidos.push(`👑 Rey de la cancha: ${lider.nombre} domina el primer puesto en solitario. Los demás están remando en el barro.`);
+            }
+        } 
+        
+        // [Situación 4] Si dos o más jugadores tienen la misma cantidad de puntos totales (Empate en la cima)
+        if (lider.datos.total === segundo.datos.total) {
+            // Buscar cuántos están empatados en la puntuación máxima
+            const empatadosLideres = listaOrdenada.filter(amigo => amigo.datos.total === lider.datos.total).map(amigo => amigo.nombre);
+            titularesValidos.push(`⚠️ ¡Tremendo bonche en la punta! Tenemos un empate técnico entre ${empatadosLideres.join(' y ')} con ${lider.datos.total} puntos.`);
         }
+
+        // [Situación 4 Bis] Empates generales en otras zonas de la tabla
+        for (let i = 1; i < listaOrdenada.length - 1; i++) {
+            if (listaOrdenada[i].datos.total === listaOrdenada[i+1].datos.total && listaOrdenada[i].datos.total !== lider.datos.total) {
+                titularesValidos.push(`⚖️ Zona de fuego: ${listaOrdenada[i].nombre} y ${listaOrdenada[i+1].nombre} van parejos arrastrando los mismos puntos.`);
+                break; // Solo meter un aviso de empate intermedio por ciclo
+            }
+        }
+
+        // [Situación 8] Identifica automáticamente quién va en el penúltimo puesto para meterle presión
+        if (penultimo && penultimo.nombre !== lider.nombre && penultimo.nombre !== colista.nombre) {
+            titularesValidos.push(`😰 ¡Mosca! ${penultimo.nombre} está en el penúltimo lugar, oliendo el sótano. Un resbalón más y se va al fondo.`);
+        }
+
+        // [Situación 7] Identifica automáticamente quién va en el último puesto para meterle presión
+        if (colista && colista.nombre !== lider.nombre) {
+            titularesValidos.push(`📉 Alerta roja: ${colista.nombre} va cargando el camión de la basura en el último puesto. ¡Póngase a rezar a ver si remonta!`);
+        }
+    }
+
+    // --- FRASES CARAQUEÑAS PARA ECHAR BROMA (Si la tabla no activa alertas críticas) ---
+    // [Situación 10]
+    titularesValidos.push("🦜 ¡Epa chamo! Menos mal que esta quiniela no es floja como tú, que te la pasas recostado.");
+    // [Situación 11]
+    titularesValidos.push("🛸 ¿Qué es lo tuyo? Hay algunos aquí metiendo unos pronósticos tan locos que parecen sacados de una película de ciencia ficción.");
+    // [Situación 12]
+    titularesValidos.push("🥖 ¡Cónchale vale! Dejen de quejarse de la mala suerte y pónganse a estudiar bien los partidos de la Roja.");
+    // [Situación 13]
+    titularesValidos.push("🧤 ¡Epa chamo! No vale la pena andar picado por un puntico de nada. ¡Al mal tiempo, buena cara y a seguir jugando!");
+    // [Situación 14]
+    titularesValidos.push("🌴 ¡Tranquilito papá! Agárrenlo con calma que esto apenas está empezando y la quiniela da más vueltas que un trompo.");
+    // [Situación 15]
+    titularesValidos.push("📢 ¡De verdad que son un tiro al piso! Sigan inventando combinaciones raras con los equipos asiáticos y van a quedar en la lona.");
+
+    // 3. Seleccionar una noticia de la bolsa de situaciones válidas al azar
+    const titularFinal = titularesValidos[Math.floor(Math.random() * titularesValidos.length)];
+    
+    // 4. Actualizar la burbuja de la cancha
+    document.getElementById('texto-noticia').innerText = titularFinal;
+}
 
         window.onload = function() {
             const select = document.getElementById('select-favorito');
