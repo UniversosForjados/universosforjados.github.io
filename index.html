@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiniela Mundialista - Los 7 Amigos</title>
+    <title>Quiniela Mundialista - Red Social</title>
     <style>
-        /* --- ESTILOS GENERALES Y FONDO DE GRAMA INTERACTIVO --- */
+        /* --- VARIABLES Y CONFIGURACIÓN --- */
+        :root {
+            --verde-grama: #1b4d22;
+            --verde-oscuro: #0f3015;
+            --dorado: #ffd700;
+            --blanco: #ffffff;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,67 +22,25 @@
 
         body {
             min-height: 100vh;
+            background-color: #122613;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #1e4620;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
-                linear-gradient(60deg, #1b4d22 25%, #225e2a 25%, #225e2a 50%, #1b4d22 50%, #1b4d22 75%, #225e2a 75%, #225e2a);
-            background-size: 40px 40px;
             overflow-x: hidden;
-            position: relative;
-            padding: 20px 0;
         }
 
-        .grama-interactiva {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            background: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 40px);
-            z-index: 1;
-            pointer-events: none;
-            transition: transform 0.2s ease-out;
-        }
-
-        /* --- CONTENEDORES PRINCIPALES --- */
-        .contenedor {
+        /* --- PANTALLA DE LOGIN --- */
+        .pantalla-login {
             background: rgba(255, 255, 255, 0.96);
-            padding: 30px;
+            padding: 40px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 92%;
-            max-width: 500px;
-            z-index: 10;
+            width: 90%;
+            max-width: 400px;
             text-align: center;
-            border: 4px solid #ffd700;
-            display: none;
+            border: 4px solid var(--dorado);
         }
 
-        .contenedor.ancho {
-            max-width: 900px;
-        }
-
-        .activo {
-            display: block;
-        }
-
-        h1 {
-            color: #1b4d22;
-            margin-bottom: 20px;
-            font-size: 28px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        /* --- LOGIN --- */
         .campo-login {
             width: 100%;
             padding: 12px;
@@ -86,142 +51,310 @@
         }
 
         button {
-            background: #1b4d22;
+            background: var(--verde-grama);
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 12px 20px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             text-transform: uppercase;
         }
 
         button:hover {
-            background: #225e2a;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background: #256e30;
+            transform: translateY(-2px);
         }
 
-        .error-msg {
-            color: red;
-            font-weight: bold;
-            margin-top: 10px;
-            display: none;
+        .error-msg { color: red; font-weight: bold; margin-top: 10px; display: none; }
+
+        /* --- ESTRUCTURA PRINCIPAL (DASHBOARD) --- */
+        .dashboard-container {
+            display: none; /* Controlado por JS */
+            width: 100vw;
+            height: 100vh;
+            grid-template-columns: 300px 1fr;
         }
 
-        /* --- TABLA DE POSICIONES --- */
-        .tabla-puntos {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .tabla-puntos th, .tabla-puntos td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .tabla-puntos th {
-            background-color: #1b4d22;
-            color: white;
-        }
-
-        .podio { font-weight: bold; color: #ffd700; }
-        
-        .usuario-actual-info {
-            background: #e8f5e9;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            color: #1b4d22;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .botones-menu {
+        /* --- COLUMNA LATERAL (PERFIL TIPO LINKEDIN) --- */
+        .sidebar-perfil {
+            background: var(--blanco);
+            border-right: 3px solid var(--dorado);
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            z-index: 20;
+            justify-content: space-between;
         }
 
-        .btn-secundario { background: #555; }
-        .btn-secundario:hover { background: #666; }
+        .info-superior-perfil {
+            width: 100%;
+            text-align: center;
+        }
 
-        /* --- MALLA DE GRUPOS DE LA QUINIELA --- */
-        .contenedor-grupos {
+        .avatar-contenedor {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 4px solid var(--verde-grama);
+            background: #f0f0f0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-subir-foto {
+            background: rgba(0,0,0,0.6);
+            color: white;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            font-size: 11px;
+            padding: 4px 0;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .nombre-perfil {
+            font-size: 24px;
+            color: var(--verde-oscuro);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .equipo-favorito {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            background: #e8f5e9;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .menu-perfil-botones button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-salir {
+            background: #cc2424;
+            width: 100%;
+        }
+        .btn-salir:hover { background: #e53935; }
+
+        /* --- CONTENIDO CENTRAL (CANCHA DE FÚTBOL) --- */
+        .area-central {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-            max-height: 60vh;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px dashed #ccc;
+            grid-template-rows: 1fr auto;
+            position: relative;
+            height: 100vh;
+        }
+
+        .cancha-futbol {
+            position: relative;
+            background-color: #1b4d22;
+            /* Grama Real Texturizada */
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 2px, transparent 2px),
+                repeating-linear-gradient(0deg, #18441e, #18441e 40px, #1c4f23 40px, #1c4f23 80px);
+            background-size: 40px 40px, 40px 40px, auto;
+            border: 5px solid rgba(255,255,255,0.3);
+            margin: 15px;
             border-radius: 10px;
-            background: #fafafa;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Líneas de la cancha simuladas */
+        .cancha-futbol::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.2);
+            top: 50%;
+            left: 0;
+        }
+
+        .cancha-futbol::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            top: calc(50% - 60px);
+            left: calc(50% - 60px);
+        }
+
+        /* Amigos en la Cancha */
+        .amigo-cancha {
+            background: rgba(255,255,255,0.9);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            width: 110px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            z-index: 5;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .amigo-cancha:hover {
+            transform: scale(1.1) translateY(-5px);
+            border-color: var(--dorado);
+            background: #fff;
+        }
+
+        .amigo-avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 auto 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 2px solid var(--verde-grama);
+        }
+
+        .amigo-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .amigo-nombre {
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .amigo-puntos {
+            font-size: 11px;
+            color: #666;
+            background: #e0f2f1;
+            padding: 2px 5px;
+            border-radius: 8px;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        /* --- FORMULARIO Y SECCIÓN DE RESPUESTAS MODAL --- */
+        .modal-quiniela {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-contenido {
+            background: white;
+            width: 90%;
+            max-width: 850px;
+            height: 85%;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--dorado);
+        }
+
+        .grid-grupos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 10px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
         .tarjeta-grupo {
-            background: #fff;
-            border: 2px solid #1b4d22;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: left;
+            background: white;
+            border: 2px solid var(--verde-grama);
+            border-radius: 8px;
+            padding: 12px;
         }
 
-        .tarjeta-grupo h3 {
-            background: #1b4d22;
+        .tarjeta-grupo h4 {
+            background: var(--verde-grama);
             color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
             text-align: center;
+            padding: 4px;
+            border-radius: 4px;
+            margin-bottom: 8px;
         }
 
-        .lista-equipos {
-            list-style: none;
-            margin-bottom: 12px;
+        .fila-bandera {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
             font-size: 14px;
-            color: #555;
         }
 
-        .lista-equipos li {
-            padding: 3px 0;
-            border-bottom: 1px dotted #eee;
+        .bandera-img {
+            width: 24px;
+            height: 16px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 2px;
         }
 
         .selector-clasificado {
             width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #aaa;
+            padding: 6px;
+            margin-top: 4px;
+            border-radius: 4px;
             font-size: 13px;
         }
 
-        .label-q {
-            font-size: 12px;
-            font-weight: bold;
-            color: #1b4d22;
-            display: block;
-            margin-top: 8px;
+        .voto-vista {
+            font-size: 13px;
+            padding: 4px;
+            background: #e8f5e9;
+            margin-top: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
     </style>
 </head>
 <body>
 
-    <div class="grama-interactiva" id="grama"></div>
-
-    <div class="contenedor activo" id="pantalla-login">
-        <h1>🏆 Quiniela Amigos 🏆</h1>
-        <p style="margin-bottom: 20px; color: #666;">Introduce tu usuario y tu país para ingresar</p>
+    <div class="pantalla-login" id="seccion-login">
+        <h1 style="color: var(--verde-grama); margin-bottom: 15px;">🏆 Estadio Quiniela 🏆</h1>
+        <p style="color: #666; margin-bottom: 20px;">Inicia sesión en tu perfil</p>
         
         <select id="login-usuario" class="campo-login">
             <option value="">Selecciona tu usuario...</option>
@@ -233,53 +366,67 @@
             <option value="Francisco">Francisco</option>
             <option value="Gerardo">Gerardo</option>
         </select>
-
-        <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña (Tu País asignado)">
-        
-        <button onclick="intentarLogin()">Ingresar a la Quiniela</button>
-        <p class="error-msg" id="error-login">Usuario o clave (país) incorrectos.</p>
+        <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña (Tu País del Mundial)">
+        <button onclick="intentarLogin()" style="width: 100%;">Ingresar al Dashboard</button>
+        <p class="error-msg" id="error-login">Usuario o Contraseña incorrectos.</p>
     </div>
 
-    <div class="contenedor" id="pantalla-dashboard">
-        <h1>Quiniela del Mundial</h1>
+    <div class="dashboard-container" id="seccion-dashboard">
         
-        <div class="usuario-actual-info" id="info-sesion"></div>
+        <aside class="sidebar-perfil">
+            <div class="info-superior-perfil">
+                <div class="avatar-contenedor">
+                    <img id="mi-avatar" class="avatar-img" src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Avatar">
+                    <label class="btn-subir-foto">
+                        Subir Foto
+                        <input type="file" id="input-foto" accept="image/*" style="display:none;" onchange="procesarFoto(event)">
+                    </label>
+                </div>
+                <div class="nombre-perfil" id="mi-nombre">Usuario</div>
+                <div class="equipo-favorito" id="mi-equipo">País: Cargando...</div>
 
-        <h2>📊 Tabla General de Posiciones</h2>
-        
-        <table class="tabla-puntos">
-            <thead>
-                <tr>
-                    <th>Pos</th>
-                    <th>Amigo</th>
-                    <th>Puntos</th>
-                </tr>
-            </thead>
-            <tbody id="cuerpo-tabla"></tbody>
-        </table>
+                <div class="menu-perfil-botones" id="bloque-botones-edicion">
+                    <button onclick="abrirModalQuiniela(true)">📝 Editar Mi Quiniela</button>
+                </div>
+            </div>
 
-        <div class="botones-menu">
-            <button onclick="irAFormulario()">📝 Mi Quiniela</button>
-            <button onclick="cerrarSesion()" class="btn-secundario">Salir</button>
-        </div>
+            <button onclick="cerrarSesion()" class="btn-salir">🚪 Cerrar Aplicación</button>
+        </aside>
+
+        <main class="area-central">
+            <div class="cancha-futbol" id="cancha">
+                </div>
+        </main>
     </div>
 
-    <div class="contenedor ancho" id="pantalla-quiniela">
-        <h1>Configurar Mis Pronósticos</h1>
-        <div class="usuario-actual-info" id="info-sesion-q"></div>
-        
-        <p style="margin-bottom: 15px; color: #555;">Selecciona tus dos clasificados por cada grupo del mundial (A-L):</p>
-        
-        <div class="contenedor-grupos" id="bloque-grupos"></div>
-        
-        <div class="botones-menu">
-            <button onclick="guardarQuiniela()">💾 Guardar Predicciones</button>
-            <button onclick="irADashboard()" class="btn-secundario">Volver</button>
+    <div class="modal-quiniela" id="modal-q">
+        <div class="modal-contenido">
+            <h2 id="modal-titulo" style="color: var(--verde-grama); margin-bottom: 15px;">Pronósticos</h2>
+            <div class="grid-grupos" id="modal-grid-grupos"></div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button id="btn-modal-guardar" onclick="guardarMiQuiniela()">Guardar Cambios</button>
+                <button onclick="cerrarModal()" style="background: #666;">Cerrar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Estructura de Grupos Oficiales (48 equipos ficticios/reales distribuidos de A a L)
+        // Mapeo oficial de códigos de bandera ISO (Para cargar banderas SVG reales gratis de Flagcdn)
+        const banderasPaises = {
+            "Argentina": "ar", "Francia": "fr", "Marruecos": "ma", "Canadá": "ca",
+            "España": "es", "Alemania": "de", "Japón": "jp", "Ecuador": "ec",
+            "Brasil": "br", "Portugal": "pt", "Corea del Sur": "kr", "Jamaica": "jm",
+            "Italia": "it", "Bélgica": "be", "Argelia": "dz", "Honduras": "hn",
+            "Uruguay": "uy", "Inglaterra": "gb-eng", "Australia": "au", "Irak": "iq",
+            "Países Bajos": "nl", "Croacia": "hr", "Nigeria": "ng", "Panamá": "pa",
+            "Colombia": "co", "Suiza": "ch", "Irán": "ir", "Sudáfrica": "za",
+            "Estados Unidos": "us", "Gales": "gb-wls", "Arabia Saudita": "sa", "Perú": "pe",
+            "México": "mx", "Dinamarca": "dk", "Túnez": "tn", "Nueva Zelanda": "nz",
+            "Chile": "cl", "Austria": "at", "Egipto": "eg", "China": "cn",
+            "Senegal": "sn", "Serbia": "rs", "Camerún": "cm", "Costa Rica": "cr",
+            "Suecia": "se", "Polonia": "pl", "Ghana": "gh"
+        };
+
         const gruposMundial = {
             "A": ["Argentina", "Francia", "Marruecos", "Canadá"],
             "B": ["España", "Alemania", "Japón", "Ecuador"],
@@ -292,23 +439,7 @@
             "I": ["México", "Dinamarca", "Túnez", "Nueva Zelanda"],
             "J": ["Chile", "Austria", "Egipto", "China"],
             "K": ["Senegal", "Serbia", "Camerún", "Costa Rica"],
-            "L": ["Suecia", "Polonia", "Ghana", "Canadá"]
-        };
-
-        // Resultados Oficiales Simulados (Para el cálculo de puntos Arcade)
-        const resultadosReales = {
-            "A": { "1ro": "Argentina", "2do": "Francia" },
-            "B": { "1ro": "España", "2do": "Alemania" },
-            "C": { "1ro": "Brasil", "2do": "Portugal" },
-            "D": { "1ro": "Italia", "2do": "Bélgica" },
-            "E": { "1ro": "Uruguay", "2do": "Inglaterra" },
-            "F": { "1ro": "Países Bajos", "2do": "Croacia" },
-            "G": { "1ro": "Colombia", "2do": "Suiza" },
-            "H": { "1ro": "Estados Unidos", "2do": "Gales" },
-            "I": { "1ro": "México", "2do": "Dinamarca" },
-            "J": { "1ro": "Chile", "2do": "Austria" },
-            "K": { "1ro": "Senegal", "2do": "Serbia" },
-            "L": { "1ro": "Suecia", "2do": "Polonia" }
+            "L": ["Suecia", "Polonia", "Ghana", "Argentina"]
         };
 
         const credenciales = {
@@ -318,49 +449,14 @@
 
         let usuarioLogueado = "";
 
-        // Inicializar el diseño de los grupos A-L al cargar
-        function inicializarGruposFormulario() {
-            const contenedor = document.getElementById('bloque-grupos');
-            contenedor.innerHTML = "";
-
-            Object.keys(gruposMundial).forEach(letra => {
-                const equipos = gruposMundial[letra];
-                
-                const tarjeta = document.createElement('div');
-                tarjeta.classList.add('tarjeta-grupo');
-                
-                let opcionesEquipos = `<option value="">-- Selecciona --</option>`;
-                equipos.forEach(eq => {
-                    opcionesEquipos += `<option value="${eq}">${eq}</option>`;
-                });
-
-                tarjeta.innerHTML = `
-                    <h3>Grupo ${letra}</h3>
-                    <ul class="lista-equipos">
-                        <li>⚽ ${equipos[0]}</li>
-                        <li>⚽ ${equipos[1]}</li>
-                        <li>⚽ ${equipos[2]}</li>
-                        <li>⚽ ${equipos[3]}</li>
-                    </ul>
-                    <span class="label-q">🥇 1° Clasificado:</span>
-                    <select class="selector-clasificado" id="grupo-${letra}-1ro">
-                        ${opcionesEquipos}
-                    </select>
-                    <span class="label-q">🥈 2° Clasificado:</span>
-                    <select class="selector-clasificado" id="grupo-${letra}-2do">
-                        ${opcionesEquipos}
-                    </select>
-                `;
-                contenedor.appendChild(tarjeta);
-            });
-        }
-
-        // Mouse Move Effect
+        // Textura dinámica del movimiento del mouse en el césped
         document.addEventListener('mousemove', (e) => {
-            const grama = document.getElementById('grama');
-            const moverX = (e.clientX / window.innerWidth - 0.5) * 30;
-            const moverY = (e.clientY / window.innerHeight - 0.5) * 30;
-            grama.style.transform = `translate(${moverX}px, ${moverY}px)`;
+            const cancha = document.getElementById('cancha');
+            if(cancha) {
+                const moverX = (e.clientX / window.innerWidth - 0.5) * 20;
+                const moverY = (e.clientY / window.innerHeight - 0.5) * 20;
+                cancha.style.transform = `translate(${moverX}px, ${moverY}px)`;
+            }
         });
 
         function intentarLogin() {
@@ -372,123 +468,163 @@
                 usuarioLogueado = usuario;
                 errorMsg.style.display = 'none';
                 document.getElementById('login-clave').value = "";
-                irADashboard();
+                
+                document.getElementById('seccion-login').style.display = 'none';
+                document.getElementById('seccion-dashboard').style.display = 'grid';
+                
+                cargarDatosPerfil();
+                dibujarEstadioAmigos();
             } else {
                 errorMsg.style.display = 'block';
             }
         }
 
-        function cerrarSesion() {
-            usuarioLogueado = "";
-            cambiarPantalla('pantalla-login');
-        }
-
-        function cambiarPantalla(idPantalla) {
-            document.getElementById('pantalla-login').classList.remove('activo');
-            document.getElementById('pantalla-dashboard').classList.remove('activo');
-            document.getElementById('pantalla-quiniela').classList.remove('activo');
-            document.getElementById(idPantalla).classList.add('activo');
-        }
-
-        function irADashboard() {
-            document.getElementById('info-sesion').innerText = `👋 Jugador activo: ${usuarioLogueado}`;
-            actualizarTablaPosiciones();
-            cambiarPantalla('pantalla-dashboard');
-        }
-
-        function irAFormulario() {
-            document.getElementById('info-sesion-q').innerText = `Predicciones de: ${usuarioLogueado}`;
-            inicializarGruposFormulario();
-            cargarQuinielaGuardada();
-            cambiarPantalla('pantalla-quiniela');
-        }
-
-        // Lógica de guardado nativo en navegador
-        function guardarQuiniela() {
-            let userPredictions = {};
+        function cargarDatosPerfil() {
+            document.getElementById('mi-nombre').innerText = usuarioLogueado;
+            document.getElementById('mi-equipo').innerText = `País: ${credenciales[usuarioLogueado]}`;
             
-            Object.keys(gruposMundial).forEach(letra => {
-                const prim = document.getElementById(`grupo-${letra}-1ro`).value;
-                const seg = document.getElementById(`grupo-${letra}-2do`).value;
-                userPredictions[letra] = { "1ro": prim, "2do": seg };
-            });
-
-            localStorage.setItem(`quiniela_${usuarioLogueado}`, JSON.stringify(userPredictions));
-            alert("¡Predicciones guardadas con éxito en este dispositivo!");
-            irADashboard();
+            // Cargar foto si ya se guardó antes en localStorage
+            const fotoGuardada = localStorage.getItem(`foto_${usuarioLogueado}`);
+            if (fotoGuardada) {
+                document.getElementById('mi-avatar').src = fotoGuardada;
+            } else {
+                document.getElementById('mi-avatar').src = "https://cdn-icons-png.flaticon.com/512/53/53283.png";
+            }
         }
 
-        function cargarQuinielaGuardada() {
-            const datos = localStorage.getItem(`quiniela_${usuarioLogueado}`);
-            if (datos) {
-                const predicciones = JSON.parse(datos);
-                Object.keys(predicciones).forEach(letra => {
-                    if(document.getElementById(`grupo-${letra}-1ro`)) {
-                        document.getElementById(`grupo-${letra}-1ro`).value = predicciones[letra]["1ro"];
-                        document.getElementById(`grupo-${letra}-2do`).value = predicciones[letra]["2do"];
+        function procesarFoto(event) {
+            const lector = new FileReader();
+            lector.onload = function() {
+                const base64 = lector.result;
+                localStorage.setItem(`foto_${usuarioLogueado}`, base64);
+                document.getElementById('mi-avatar').src = base64;
+                dibujarEstadioAmigos(); // Redibuja la cancha para actualizar tu foto
+            }
+            lector.readAsDataURL(event.target.files[0]);
+        }
+
+        function dibujarEstadioAmigos() {
+            const cancha = document.getElementById('cancha');
+            cancha.innerHTML = "";
+
+            Object.keys(credenciales).forEach(nombre => {
+                if (nombre === usuarioLogueado) return; // Mostrar solo a los demás en el campo
+
+                const divAmigo = document.createElement('div');
+                divAmigo.classList.add('amigo-cancha');
+                divAmigo.onclick = () => abrirModalQuiniela(false, nombre);
+
+                const fotoAmigo = localStorage.getItem(`foto_${nombre}`) || "https://cdn-icons-png.flaticon.com/512/53/53283.png";
+                
+                divAmigo.innerHTML = `
+                    <div class="amigo-avatar">
+                        <img src="${fotoAmigo}" alt="${nombre}">
+                    </div>
+                    <div class="amigo-nombre">${nombre}</div>
+                    <div class="amigo-puntos">Ver Quiniela</div>
+                `;
+                cancha.appendChild(divAmigo);
+            });
+        }
+
+        function abrirModalQuiniela(esEditable, nombreAmigo = "") {
+            const modal = document.getElementById('modal-q');
+            const titulo = document.getElementById('modal-titulo');
+            const grid = document.getElementById('modal-grid-grupos');
+            const btnGuardar = document.getElementById('btn-modal-guardar');
+            
+            grid.innerHTML = "";
+            modal.style.display = "flex";
+
+            if (esEditable) {
+                titulo.innerText = "Configurar mis Pronósticos (A-L)";
+                btnGuardar.style.display = "block";
+                
+                const datosPropios = JSON.parse(localStorage.getItem(`quiniela_${usuarioLogueado}`)) || {};
+
+                Object.keys(gruposMundial).forEach(letra => {
+                    const equipos = gruposMundial[letra];
+                    const tarjeta = document.createElement('div');
+                    tarjeta.classList.add('tarjeta-grupo');
+
+                    let opciones = `<option value="">-- Seleccionar --</option>`;
+                    equipos.forEach(eq => {
+                        opciones += `<option value="${eq}">${eq}</option>`;
+                    });
+
+                    tarjeta.innerHTML = `
+                        <h4>Grupo ${letra}</h4>
+                        ${equipos.map(eq => `
+                            <div class="fila-bandera">
+                                <img class="bandera-img" src="https://flagcdn.com/${banderasPaises[eq]}.svg">
+                                <span>${eq}</span>
+                            </div>
+                        `).join('')}
+                        <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">1º Clasificado:</label>
+                        <select class="selector-clasificado" id="mod-grupo-${letra}-1ro">${opciones}</select>
+                        <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">2º Clasificado:</label>
+                        <select class="selector-clasificado" id="mod-grupo-${letra}-2do">${opciones}</select>
+                    `;
+                    grid.appendChild(tarjeta);
+
+                    // Pre-cargar valores ya guardados
+                    if (datosPropios[letra]) {
+                        document.getElementById(`mod-grupo-${letra}-1ro`).value = datosPropios[letra]["1ro"];
+                        document.getElementById(`mod-grupo-${letra}-2do`).value = datosPropios[letra]["2do"];
                     }
+                });
+            } else {
+                titulo.innerText = `Quiniela de ${nombreAmigo}`;
+                btnGuardar.style.display = "none";
+
+                const datosAmigo = JSON.parse(localStorage.getItem(`quiniela_${nombreAmigo}`)) || null;
+
+                Object.keys(gruposMundial).forEach(letra => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.classList.add('tarjeta-grupo');
+
+                    let v1 = "No elegido";
+                    let v2 = "No elegido";
+                    let flag1 = "", flag2 = "";
+
+                    if (datosAmigo && datosAmigo[letra]) {
+                        v1 = datosAmigo[letra]["1ro"] || "No elegido";
+                        v2 = datosAmigo[letra]["2do"] || "No elegido";
+                        if(banderasPaises[v1]) flag1 = `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v1]}.svg">`;
+                        if(banderasPaises[v2]) flag2 = `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v2]}.svg">`;
+                    }
+
+                    tarjeta.innerHTML = `
+                        <h4>Grupo ${letra}</h4>
+                        <div class="voto-vista">🥇 1ro: ${flag1} <b>${v1}</b></div>
+                        <div class="voto-vista">🥈 2do: ${flag2} <b>${v2}</b></div>
+                    `;
+                    grid.appendChild(tarjeta);
                 });
             }
         }
 
-        // Sistema de Puntos Arcade (+100 acierto, -20 error)
-        function calcularPuntosUsuario(nombreUsuario) {
-            const datos = localStorage.getItem(`quiniela_${nombreUsuario}`);
-            let puntos = 0;
-
-            if (!datos) return 0; // Si no ha rellenado nada, empieza en 0
-            
-            const predicciones = JSON.parse(datos);
-
-            Object.keys(resultadosReales).forEach(letra => {
-                const pred = predicciones[letra];
-                const real = resultadosReales[letra];
-
-                if (pred) {
-                    // Verificar 1er puesto
-                    if (pred["1ro"] === real["1ro"]) puntos += 100;
-                    else if (pred["1ro"] !== "") puntos -= 20;
-
-                    // Verificar 2do puesto
-                    if (pred["2do"] === real["2do"]) puntos += 100;
-                    else if (pred["2do"] !== "") puntos -= 20;
-                }
+        function guardarMiQuiniela() {
+            let misPredicciones = {};
+            Object.keys(gruposMundial).forEach(letra => {
+                const prim = document.getElementById(`mod-grupo-${letra}-1ro`).value;
+                const seg = document.getElementById(`mod-grupo-${letra}-2do`).value;
+                misPredicciones[letra] = { "1ro": prim, "2do": seg };
             });
-            return puntos;
+
+            localStorage.setItem(`quiniela_${usuarioLogueado}`, JSON.stringify(misPredicciones));
+            alert("¡Tus predicciones han sido guardadas con éxito!");
+            cerrarModal();
         }
 
-        function actualizarTablaPosiciones() {
-            const cuerpo = document.getElementById('cuerpo-tabla');
-            cuerpo.innerHTML = "";
+        function cerrarModal() {
+            document.getElementById('modal-q').style.display = "none";
+        }
 
-            // Calcular dinámicamente los puntajes de los 7 amigos basados en sus respuestas guardadas
-            const listaOrdenada = Object.keys(credenciales).map(nombre => {
-                return { nombre: nombre, puntos: calcularPuntosUsuario(nombre) };
-            }).sort((a, b) => b.puntos - a.puntos);
-
-            listaOrdenada.forEach((amigo, indice) => {
-                const fila = document.createElement('tr');
-                
-                if (amigo.nombre === usuarioLogueado) {
-                    fila.style.backgroundColor = "#c8e6c9";
-                    fila.style.fontWeight = "bold";
-                }
-
-                const celdaPos = document.createElement('td');
-                celdaPos.innerText = indice + 1;
-                if(indice === 0) celdaPos.classList.add('podio');
-
-                const celdaNombre = document.createElement('td');
-                celdaNombre.innerText = amigo.nombre;
-
-                const celdaPuntos = document.createElement('td');
-                celdaPuntos.innerText = `${amigo.puntos} pts`;
-
-                fila.appendChild(celdaPos);
-                fila.appendChild(celdaNombre);
-                fila.appendChild(celdaPuntos);
-                cuerpo.appendChild(fila);
-            });
+        function cerrarSesion() {
+            usuarioLogueado = "";
+            document.getElementById('seccion-dashboard').style.display = 'none';
+            document.getElementById('seccion-login').style.display = 'block';
         }
     </script>
 </body>
