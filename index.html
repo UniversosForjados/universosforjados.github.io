@@ -3,82 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiniela Mundialista Premium - Los 7 Amigos</title>
+    <title>Quiniela Mundialista 2026 - Los 7 Amigos</title>
     <style>
         :root {
             --verde-grama: #1b4d22;
             --verde-oscuro: #0f3015;
             --dorado: #ffd700;
             --blanco: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.25);
-            --morado-bracket: rgba(38, 16, 71, 0.85);
+            --gris-bloqueado: #888888;
+            --morado-bracket: #261047;
+            --morado-caja: #3b1e6d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
-            height: 100vh;
-            width: 100vw;
+            min-height: 100vh;
             background-color: #122613;
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
             position: relative;
-            user-select: none;
         }
 
-        /* --- EFECTO CLICK SPARK (CANVAS) --- */
+        /* --- EFECTO CLICK SPARK (CANVAS PREMIUM) --- */
         #spark-canvas {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
-            z-index: 999;
+            z-index: 9999;
         }
 
-        /* --- COLUMNA LATERAL (PERFIL LINKEDIN) --- */
+        /* --- PANTALLA DE LOGIN --- */
+        .pantalla-login {
+            background: rgba(255, 255, 255, 0.96);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 4px solid var(--dorado);
+            z-index: 50;
+        }
+
+        .campo-login {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: var(--verde-grama);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        button:hover:not(:disabled) {
+            background: #256e30;
+            transform: translateY(-2px);
+        }
+
+        /* --- DASHBOARD LAYOUT --- */
+        .dashboard-container {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            grid-template-columns: 320px 1fr;
+        }
+
+        /* --- COLUMNA LATERAL (PERFIL) --- */
         .sidebar-perfil {
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--blanco);
             border-right: 3px solid var(--dorado);
             display: flex;
             flex-direction: column;
             padding: 20px 15px;
             box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-            z-index: 10;
-            height: 100vh;
+            z-index: 20;
             overflow-y: auto;
+            height: 100%;
         }
 
         .avatar-contenedor {
             position: relative;
-            width: 100px; height: 100px;
+            width: 110px;
+            height: 110px;
             margin: 0 auto 10px;
             border-radius: 50%;
             border: 4px solid var(--verde-grama);
+            background: #f0f0f0;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
         .btn-subir-foto {
-            background: rgba(0,0,0,0.6); color: white;
-            position: absolute; bottom: 0; width: 100%;
-            font-size: 10px; padding: 3px 0; text-align: center; cursor: pointer;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            position: absolute;
+            bottom: 0; width: 100%;
+            font-size: 10px; padding: 3px 0;
+            cursor: pointer; text-align: center;
         }
 
-        .nombre-perfil { font-size: 20px; color: var(--verde-oscuro); font-weight: bold; text-align: center; margin-bottom: 8px; }
+        .nombre-perfil {
+            font-size: 22px;
+            color: var(--verde-oscuro);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
         .seccion-favorito {
-            background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #ddd;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
         }
-        .seccion-favorito label { font-size: 11px; font-weight: bold; color: var(--verde-grama); display: block; margin-bottom: 4px; }
-        .selector-fav { width: 100%; padding: 5px; border-radius: 4px; font-size: 12px; margin-bottom: 5px; }
-        
-        .contenedor-curiosidades { max-height: 140px; overflow-y: auto; margin-top: 5px; }
-        .dato-item { font-size: 11px; color: #444; background: #fff; padding: 5px; border-radius: 4px; border-left: 3px solid var(--dorado); margin-bottom: 4px; font-style: italic;}
+
+        .seccion-favorito label {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--verde-grama);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .selector-fav {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .bloque-info-equipo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .bandera-fav {
+            width: 45px; height: 30px; object-fit: cover;
+            border: 1px solid #ccc; margin-bottom: 5px;
+            display: none;
+        }
+
+        .datos-curiosos {
+            font-size: 11px; color: #444; font-style: italic;
+            background: #fff; padding: 6px; border-radius: 4px;
+            border-left: 3px solid var(--dorado); margin-top: 5px;
+            text-align: left; width: 100%;
+        }
+
+        .calendario-juegos {
+            font-size: 11px; margin-top: 8px; width: 100%;
+            border-top: 1px dashed #ccc; padding-top: 5px;
+        }
+
+        .juego-item { padding: 3px 0; border-bottom: 1px solid #eee; color: #333; text-align: left;}
 
         /* --- SECCIÓN MASCOTAS COMENTARISTAS --- */
-        .contenedor-mascota {
-            margin-top: auto;
+        .seccion-comentarista {
+            margin-top: 15px;
             background: #e8f5e9;
             border-radius: 10px;
             padding: 10px;
@@ -86,100 +191,186 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            position: relative;
-        }
-        .img-mascota { width: 60px; height: 60px; object-fit: contain; }
-        .burbuja-comentario {
-            background: white; padding: 8px; border-radius: 8px;
-            font-size: 11px; color: #333; font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%;
-            border: 1px solid #ccc;
         }
 
-        /* --- LIENZO CENTRAL: CANCHA DE FÚTBOL --- */
-        .cancha-escenario {
-            position: relative;
+        .avatar-mascota {
+            width: 50px; height: 50px; object-fit: contain;
+        }
+
+        .burbuja-noticia {
+            background: white; padding: 6px; border-radius: 6px;
+            font-size: 11px; color: #333; font-weight: bold;
+            border: 1px solid #ccc; flex-grow: 1; text-align: left;
+        }
+
+        .btn-salir { background: #cc2424; width: 100%; margin-top: auto; }
+        .btn-salir:hover { background: #e53935; }
+
+        /* --- ÁREA CENTRAL DIVIDIDA --- */
+        .area-central {
+            display: grid;
+            grid-template-rows: 1fr; /* Removido el bloque rígido inferior */
             height: 100vh;
-            background-color: #16421c;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.05) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(255,255,255,0.05) 2px, transparent 2px),
-                repeating-linear-gradient(0deg, #143d1a, #143d1a 45px, #18491f 45px, #18491f 90px);
-            background-size: 45px 45px, 45px 45px, auto;
-            padding: 20px;
+            padding: 15px;
+            gap: 15px;
+            position: relative;
         }
 
-        /* Marcaciones tácticas de la cancha */
-        .cancha-escenario::before {
-            content: ""; position: absolute; top: 10%; bottom: 10%; left: 5%; right: 5%;
-            border: 2px solid rgba(255,255,255,0.1); pointer-events: none;
+        .bloque-superior-juego {
+            display: block; /* Modificado para permitir posicionamiento libre absoluto */
+            height: 100%;
+            position: relative;
         }
 
-        /* --- ALINEACIÓN SUPERIOR DE JUGADORES --- */
-        .alineacion-amigos {
-            display: flex; justify-content: center; gap: 20px;
-            position: absolute; top: 25px; left: 0; right: 0; z-index: 5;
-        }
-        .amigo-burbuja {
-            background: rgba(255,255,255,0.9); padding: 5px 10px; border-radius: 20px;
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            cursor: pointer; transition: transform 0.2s;
-        }
-        .amigo-burbuja:hover { transform: scale(1.1); }
-        .amigo-pic { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--verde-grama); }
-        .amigo-txt { font-size: 12px; font-weight: bold; }
-
-        /* --- CUADROS FLOTANTES Y ARRASTRABLES (DRAGGABLE GLASS) --- */
-        .cuadro-flotante {
+        /* --- LADO DERECHO TRASLADADO A ESCENARIO COMPLETO --- */
+        .cancha-futbol {
             position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid var(--glass-border);
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            z-index: 8;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #1b4d22;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 2px, transparent 2px),
+                repeating-linear-gradient(0deg, #18441e, #18441e 30px, #1c4f23 30px, #1c4f23 60px);
+            background-size: 30px 30px, 30px 30px, auto;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: flex-start;
+            padding: 20px 10px;
+            gap: 20px;
+            z-index: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .amigo-cancha {
+            background: rgba(255,255,255,0.92);
+            padding: 6px;
+            border-radius: 10px;
+            text-align: center;
+            width: 85px;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            height: fit-content;
+            z-index: 2;
+        }
+
+        .amigo-cancha:hover { transform: scale(1.08); border-color: var(--dorado); }
+        .amigo-avatar { width: 45px; height: 45px; border-radius: 50%; background: #ddd; margin: 0 auto 4px; overflow: hidden; border: 2px solid var(--verde-grama); }
+        .amigo-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .amigo-nombre { font-size: 11px; font-weight: bold; color: #222; }
+
+        /* --- CUADROS FLOTANTES Y ARRASTRABLES (DRAGGABLE WINDOWS) --- */
+        .cuadro-arrastrable {
+            position: absolute;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border-radius: 12px;
             overflow: hidden;
         }
 
-        .barra-arrastre {
-            background: rgba(255, 255, 255, 0.2);
+        .cabecera-cuadro {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
             padding: 8px 12px;
-            cursor: move;
+            color: white;
             font-size: 12px;
             font-weight: bold;
-            color: white;
+            cursor: move;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            user-select: none;
         }
 
-        .contenido-cuadro { padding: 12px; max-height: 320px; overflow-y: auto; }
+        /* --- REUBICACIÓN EN MODO FLOTANTE PEQUEÑO --- */
+        #contenedor-flotante-bracket {
+            top: 110px; left: 30px; width: 450px;
+        }
 
-        /* --- POSICIONAMIENTO INICIAL DE LOS CUADROS --- */
-        #cuadro-bracket { top: 120px; left: 40px; width: 440px; background: var(--morado-bracket); }
-        #cuadro-tabla { top: 120px; right: 40px; width: 460px; background: rgba(15, 48, 21, 0.85); }
+        #contenedor-flotante-tabla {
+            top: 110px; right: 30px; width: 450px;
+        }
 
-        /* Estilos Internos del Bracket */
-        .flex-bracket { display: flex; justify-content: space-between; align-items: center; height: 160px; }
-        .col-bracket { display: flex; flex-direction: column; justify-content: space-around; height: 100%; }
-        .box-partido { background: #3b1e6d; color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.2); min-width: 80px;}
+        /* Re-adaptación del Bracket para hacerlo compacto y flotante */
+        .contenedor-bracket {
+            background-color: rgba(38, 16, 71, 0.9);
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--dorado);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
 
-        /* Estilos Internos de la Tabla */
-        .tabla-mini { width: 100%; border-collapse: collapse; font-size: 11px; color: white; }
-        .tabla-mini th { background: rgba(255,255,255,0.2); padding: 6px; text-align: center; }
-        .tabla-mini td { padding: 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .contenedor-bracket::before {
+            content: "▼▲ FIFA WORLD CUP BRACKET ▲▼";
+            position: absolute; top: 0; left: 0; width: 100%;
+            background: rgba(255, 0, 85, 0.2); color: rgba(255,255,255,0.6);
+            font-size: 9px; text-align: center; padding: 2px 0; letter-spacing: 1px;
+        }
+
+        /* Re-adaptación de la Tabla para hacerla compacta y flotante */
+        .contenedor-tabla {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border: 2px solid var(--verde-grama);
+            height: 250px;
+            overflow-y: auto;
+        }
+
+        /* --- MODALES --- */
+        .modal-quiniela {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7); z-index: 100;
+            display: none; justify-content: center; align-items: center;
+        }
+
+        .modal-contenido {
+            background: white; width: 92%; max-width: 850px;
+            height: 85%; border-radius: 15px; padding: 25px;
+            display: flex; flex-direction: column; border: 4px solid var(--dorado);
+        }
+
+        .fases-nav { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .btn-fase { background: #eaeaea; color: #333; font-size: 11px; padding: 8px 12px; border-radius: 5px; border:none; cursor:pointer;}
+        .btn-fase.activa { background: var(--verde-grama); color: white; }
+        .btn-fase:disabled { background: #d2d2d2; color: #777; cursor: not-allowed; }
+
+        .grid-grupos {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px; overflow-y: auto; flex-grow: 1; padding: 10px;
+            background: #f7f7f7; border-radius: 8px; margin-bottom: 15px;
+        }
+
+        .tarjeta-grupo { background: white; border: 2px solid var(--verde-grama); border-radius: 8px; padding: 12px; }
+        .tarjeta-grupo h4 { background: var(--verde-grama); color: white; text-align: center; padding: 4px; border-radius: 4px; margin-bottom: 8px; }
+        .fila-bandera { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 13px; }
+        .bandera-img { width: 22px; height: 14px; object-fit: cover; border: 1px solid #ccc; }
+        .selector-clasificado { width: 100%; padding: 5px; margin-top: 3px; font-size: 12px; }
+        .voto-vista { font-size: 12px; padding: 4px; background: #e8f5e9; margin-top: 4px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
 <body>
 
+    <!-- LIENZO DE PARTÍCULAS SPARK -->
     <canvas id="spark-canvas"></canvas>
 
-    <div class="pantalla-login" id="seccion-login" style="position: absolute; top: 35%; left: 40%; z-index: 100;">
-        <h1 style="color: var(--verde-grama); font-size: 22px; margin-bottom: 10px;">🏆 Estadio Quiniela v2 🏆</h1>
+    <div class="pantalla-login" id="seccion-login">
+        <h1 style="color: var(--verde-grama); margin-bottom: 15px;">🏆 Quiniela Amigos 🏆</h1>
+        <p style="color: #666; margin-bottom: 20px;">Inicia sesión en tu cuenta</p>
+        
         <select id="login-usuario" class="campo-login">
-            <option value="">Selecciona Usuario...</option>
+            <option value="">Selecciona tu usuario...</option>
             <option value="Saul">Saul</option>
             <option value="Jorge">Jorge</option>
             <option value="Osmel">Osmel</option>
@@ -190,236 +381,598 @@
         </select>
         <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña">
         <button onclick="intentarLogin()" style="width: 100%;">Ingresar</button>
+        <p class="error-msg" id="error-login">Usuario o Contraseña incorrectos.</p>
     </div>
 
-    <div id="seccion-dashboard" class="dashboard-container" style="display: none; width: 100%; height: 100%;">
+    <div class="dashboard-container" id="seccion-dashboard">
         
         <aside class="sidebar-perfil">
             <div class="avatar-contenedor">
-                <img id="mi-avatar" class="avatar-img" src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-                <label class="btn-subir-foto">Cambiar<input type="file" id="input-foto" accept="image/*" style="display:none;" onchange="procesarFoto(event)"></label>
+                <img id="mi-avatar" class="avatar-img" src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Avatar">
+                <label class="btn-subir-foto">
+                    Cambiar Foto
+                    <input type="file" id="input-foto" accept="image/*" style="display:none;" onchange="procesarFoto(event)">
+                </label>
             </div>
             <div class="nombre-perfil" id="mi-nombre">Usuario</div>
             
             <div class="seccion-favorito">
-                <label>⭐ Equipo Favorito:</label>
-                <select id="select-favorito" class="selector-fav" onchange="actualizarEquipoFavorito(this.value)"></select>
-                <div style="text-align:center;"><img id="flag-fav" style="width:40px; height:25px; display:none; margin: 5px auto; border:1px solid #ccc;"></div>
-                <div class="contenedor-curiosidades" id="curiosidades-box"></div>
+                <label>⭐ Mi Equipo Favorito:</label>
+                <select id="select-favorito" class="selector-fav" onchange="actualizarEquipoFavorito(this.value)">
+                    <option value="">-- Seleccionar --</option>
+                </select>
+                <div class="bloque-info-equipo">
+                    <img id="flag-fav" class="bandera-fav" src="" alt="Bandera">
+                    <!-- Espacio dinámico para alojar las 3 curiosidades simultáneas -->
+                    <div id="curiosidad-fav" style="width: 100%;">Selecciona un país para ver datos de interés y juegos.</div>
+                    <div id="calendario-fav" class="calendario-juegos"></div>
+                </div>
             </div>
 
-            <button onclick="alert('Formulario de edición disponible en la siguiente fase de despliegue.')" style="width: 100%; margin-bottom: 8px;">📝 Editar Quiniela</button>
-            <button onclick="cerrarSesion()" style="background:#cc2424; width:100%; margin-top:auto;">🚪 Salir</button>
-
-            <div class="contenedor-mascota">
-                <img id="mascota-img" class="img-mascota" src="https://cdn-icons-png.flaticon.com/512/9463/9463943.png">
-                <div class="burbuja-comentario" id="comentario-texto">¡Cargando transmisiones del Estadio de Amigos!</div>
+            <button onclick="abrirModalMenuFases(true)" style="width: 100%; margin-bottom: 10px;">📝 Editar Mi Quiniela</button>
+            
+            <!-- SECCIÓN DEL COMENTARISTA (MASCOTAS DEL MUNDIAL) -->
+            <div class="seccion-comentarista">
+                <img id="foto-mascota" class="avatar-mascota" src="https://cdn-icons-png.flaticon.com/512/9463/9463943.png">
+                <div id="texto-noticia" class="burbuja-noticia">¡Bienvenidos al Estadio Virtual de la Quiniela!</div>
             </div>
+
+            <button onclick="cerrarSesion()" class="btn-salir" style="margin-top: 15px;">🚪 Cerrar Aplicación</button>
         </aside>
 
-        <main class="cancha-escenario">
-            <div class="alineacion-amigos" id="cancha-amigos"></div>
+        <main class="area-central">
+            
+            <div class="bloque-superior-juego">
+                
+                <!-- EL ESTADIO COMPLETO QUE OCUPA EL LIENZO -->
+                <div class="cancha-futbol" id="cancha"></div>
 
-            <div class="cuadro-flotante" id="cuadro-bracket">
-                <div class="barra-arrastre" onmousedown="iniciarArrastre(event, 'cuadro-bracket')">
-                    <span>🌿 Árbol de Eliminatorias (FIFA)</span>
-                    <span style="font-size: 10px; opacity: 0.6;">📌 Arrástrame</span>
-                </div>
-                <div class="contenido-cuadro flex-bracket">
-                    <div class="col-bracket"><div class="box-partido">CHI vs MEX</div><div class="box-partido">ARG vs NGA</div></div>
-                    <div class="col-bracket"><div class="box-partido">Por definir</div></div>
-                    <div class="col-bracket centro-final"><span style="color:var(--dorado); font-size:10px;">FINAL</span>👑 🏆</div>
-                    <div class="col-bracket"><div class="box-partido">Por definir</div></div>
-                    <div class="col-bracket"><div class="box-partido">USA vs ITA</div><div class="box-partido">MAR vs KOR</div></div>
-                </div>
-            </div>
+                <!-- CUADRO FLOTANTE ARRASTRABLE 1: EL BRACKET -->
+                <div class="cuadro-arrastrable" id="contenedor-flotante-bracket">
+                    <div class="cabecera-cuadro" onmousedown="iniciarArrastre(event, 'contenedor-flotante-bracket')">
+                        <span>🌿 Árbol de Eliminatorias (FIFA)</span>
+                        <span style="font-size: 9px; opacity: 0.7;">📌 Arrastrar</span>
+                    </div>
+                    <div class="contenedor-bracket">
+                        <div class="columna-bracket">
+                            <div class="caja-partido">CHI vs MEX</div>
+                            <div class="caja-partido">ARG vs NGA</div>
+                        </div>
+                        <div class="columna-bracket">
+                            <div class="caja-partido">Por definir</div>
+                        </div>
+                        <div class="columna-bracket">
+                            <div class="caja-partido">Semi 1</div>
+                        </div>
+                        
+                        <div class="columna-bracket centro-final">
+                            <span style="color:var(--dorado); font-weight:bold; font-size:12px;">FINAL</span>
+                            <div class="icono-trofeo">🏆</div>
+                            <div class="caja-partido" style="border-color:var(--dorado)">🏆 GANADOR</div>
+                        </div>
 
-            <div class="cuadro-flotante" id="cuadro-tabla">
-                <div class="barra-arrastre" onmousedown="iniciarArrastre(event, 'cuadro-tabla')">
-                    <span>📊 Puntuaciones de los Amigos</span>
-                    <span style="font-size: 10px; opacity: 0.6;">📌 Arrástrame</span>
+                        <div class="columna-bracket">
+                            <div class="caja-partido">Semi 2</div>
+                        </div>
+                        <div class="columna-bracket">
+                            <div class="caja-partido">Por definir</div>
+                        </div>
+                        <div class="columna-bracket">
+                            <div class="caja-partido">USA vs ITA</div>
+                            <div class="caja-partido">MAR vs KOR</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="contenido-cuadro">
-                    <table class="tabla-mini">
-                        <thead>
-                            <tr><th>Pos</th><th>Amigo</th><th>Perfectos</th><th>Parciales</th><th>Total</th></tr>
-                        </thead>
-                        <tbody id="cuerpo-tabla"></tbody>
-                    </table>
+
+                <!-- CUADRO FLOTANTE ARRASTRABLE 2: LA TABLA -->
+                <div class="cuadro-arrastrable" id="contenedor-flotante-tabla">
+                    <div class="cabecera-cuadro" onmousedown="iniciarArrastre(event, 'contenedor-flotante-tabla')">
+                        <span>📊 Puntuaciones del Grupo</span>
+                        <span style="font-size: 9px; opacity: 0.7;">📌 Arrastrar</span>
+                    </div>
+                    <div class="contenedor-tabla">
+                        <h4 style="color: var(--verde-grama); margin-bottom: 5px; font-size:11px;">Clasificación de Octavos</h4>
+                        <table class="tabla-puntos">
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>Amigo</th>
+                                    <th>Perfectos</th>
+                                    <th>Parciales</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpo-tabla"></tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </main>
     </div>
 
-    <script>
-        const credenciales = { "Saul": "4rgentina", "Jorge": "3spaña", "Osmel": "8rasil", "Edgar": "Fr4ncia", "Guillermo": "4lemani4", "Francisco": "P0rtug4l", "Gerardo": "1talia" };
-        const banderasPaises = { "Argentina": "ar", "Francia": "fr", "España": "es", "Alemania": "de", "Brasil": "br", "Portugal": "pt", "Italia": "it", "Marruecos": "ma", "México": "mx", "Estados Unidos": "us" };
+    <div class="modal-quiniela" id="modal-q">
+        <div class="modal-contenido">
+            <h2 id="modal-titulo" style="color: var(--verde-grama); margin-bottom: 5px;">Pronósticos del Mundial</h2>
+            
+            <div class="fases-nav">
+                <button class="btn-fase activa" id="fase-tab-grupos" onclick="cambiarFaseVisualizacion('grupos')">Clasificación Octavos (Grupos A-L)</button>
+                <button class="btn-fase" id="fase-tab-octavos" disabled>Resultados Octavos (Próximamente 29/06)</button>
+                <button class="btn-fase" id="fase-tab-cuartos" disabled>Cuartos de Final (Próximamente)</button>
+                <button class="btn-fase" id="fase-tab-semi" disabled>Semifinales (Próximamente)</button>
+                <button class="btn-fase" id="fase-tab-final" disabled>Gran Final (Próximamente)</button>
+            </div>
 
-        // 10 Datos Curiosos por equipo para la rotación aleatoria de 3
+            <div class="grid-grupos" id="modal-grid-grupos"></div>
+            
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button id="btn-modal-guardar" onclick="guardarMiQuiniela()">Guardar Cambios</button>
+                <button onclick="cerrarModal()" style="background: #666;">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const credenciales = {
+            "Saul": "4rgentina", "Jorge": "3spaña", "Osmel": "8rasil",
+            "Edgar": "Fr4ncia", "Guillermo": "4lemani4", "Francisco": "P0rtug4l", "Gerardo": "1talia"
+        };
+
+        const banderasPaises = {
+            "Argentina": "ar", "Francia": "fr", "Marruecos": "ma", "Canadá": "ca",
+            "España": "es", "Alemania": "de", "Japón": "jp", "Ecuador": "ec",
+            "Brasil": "br", "Portugal": "pt", "Corea del Sur": "kr", "Jamaica": "jm",
+            "Italia": "it", "Bélgica": "be", "Argelia": "dz", "Honduras": "hn",
+            "Uruguay": "uy", "Inglaterra": "gb-eng", "Australia": "au", "Irak": "iq",
+            "Países Bajos": "nl", "Croacia": "hr", "Nigeria": "ng", "Panamá": "pa",
+            "Colombia": "co", "Suiza": "ch", "Irán": "ir", "Sudáfrica": "za",
+            "Estados Unidos": "us", "Gales": "gb-wls", "Arabia Saudita": "sa", "Perú": "pe",
+            "México": "mx", "Dinamarca": "dk", "Túnez": "tn", "Nueva Zelanda": "nz",
+            "Chile": "cl", "Austria": "at", "Egipto": "eg", "China": "cn",
+            "Senegal": "sn", "Serbia": "rs", "Camerún": "cm", "Costa Rica": "cr",
+            "Suecia": "se", "Polonia": "pl", "Ghana": "gh"
+        };
+
+        const gruposMundial = {
+            "A": ["Argentina", "Francia", "Marruecos", "Canadá"],
+            "B": ["España", "Alemania", "Japón", "Ecuador"],
+            "C": ["Brasil", "Portugal", "Corea del Sur", "Jamaica"],
+            "D": ["Italia", "Bélgica", "Argelia", "Honduras"],
+            "E": ["Uruguay", "Inglaterra", "Australia", "Irak"],
+            "F": ["Países Bajos", "Croacia", "Nigeria", "Panamá"],
+            "G": ["Colombia", "Suiza", "Irán", "Sudáfrica"],
+            "H": ["Estados Unidos", "Gales", "Arabia Saudita", "Perú"],
+            "I": ["México", "Dinamarca", "Túnez", "Nueva Zelanda"],
+            "J": ["Chile", "Austria", "Egipto", "China"],
+            "K": ["Senegal", "Serbia", "Camerún", "Costa Rica"],
+            "L": ["Suecia", "Polonia", "Ghana", "Argentina"]
+        };
+
+        const resultadosReales = {
+            "A": { "1ro": "Argentina", "2do": "Francia" }, "B": { "1ro": "España", "2do": "Alemania" },
+            "C": { "1ro": "Brasil", "2do": "Portugal" }, "D": { "1ro": "Italia", "2do": "Bélgica" },
+            "E": { "1ro": "Uruguay", "2do": "Inglaterra" }, "F": { "1ro": "Países Bajos", "2do": "Croacia" },
+            "G": { "1ro": "Colombia", "2do": "Suiza" }, "H": { "1ro": "Estados Unidos", "2do": "Gales" },
+            "I": { "1ro": "México", "2do": "Dinamarca" }, "J": { "1ro": "Chile", "2do": "Austria" },
+            "K": { "1ro": "Senegal", "2do": "Serbia" }, "L": { "1ro": "Suecia", "2do": "Polonia" }
+        };
+
+        // Pool ampliado a 10 datos curiosos por selección para el sorteo de 3
         const poolCuriosidades = {
             "España": [
-                "No incluyó jugadores del Real Madrid en la Euro 2021.", "Ganó su mundial en 2010 con solo 8 goles anotados.", "Récord de 126 pases en un solo tiempo extra.", "Primer país en ganar el triplete Euro-Mundial-Euro.",
-                "Su peor derrota histórica fue un 7-1 ante Italia.", "Hizo debutar a Gavi con solo 17 años.", "Posee la mayor posesión registrada en mundiales (84%).", "Su mascota mítica de 1982 fue Naranjito.",
-                "Es conocida mundialmente como 'La Furia Roja'.", "Su jugador con más partidos es Sergio Ramos."
+                "¡Sabías que España en una de sus convocatorias no incluyó a ningún jugador del Real Madrid!",
+                "Ganó el Mundial de Sudáfrica 2010 anotando solo 8 goles en total.",
+                "Mantiene el récord de más pases completados en un partido con 1115.",
+                "Su peor derrota en un campeonato del mundo fue un 6-1 contra Brasil.",
+                "Su primera participación oficial de la historia data de las Olimpiadas de Amberes 1920.",
+                "Iker Casillas mantiene el récord de imbatibilidad en fases eliminatorias de 480 minutos.",
+                "Fue la primera selección europea en conseguir la corona fuera de su continente.",
+                "Mantuvo un invicto histórico mundial de 35 partidos consecutivos sin perder.",
+                "Su jugador más joven en anotar en una cita del mundo fue Gavi.",
+                "Su icónica mascota oficial para el Mundial de 1982 fue Naranjito."
             ],
             "Argentina": [
-                "Usó balones locales en la primera final de 1930.", "Es el equipo con más victorias en penales en mundiales.", "Maradona recibió 53 faltas en México 86.", "Ganó la Copa del Mundo en Qatar 2022.",
-                "Su primer partido oficial fue en 1901 contra Uruguay.", "Es la selección con más tarjetas amarillas de la historia.", "Messi es su máximo goleador histórico.", "Ganó dos medallas de oro olímpicas consecutivas.",
-                "Su camiseta clásica tiene 3 franjas celestes.", "Su peor racha fue quedar fuera en fase de grupos en 2002."
+                "¡Sabías que disputó la primera final en 1930 con balones locales!",
+                "Es el equipo que más de tandas de penales ha disputado y ganado en la historia.",
+                "Maradona ostenta el récord de más faltas recibidas en un solo mundial (53).",
+                "Su primera camiseta oficial de bastones celestes data del año 1908.",
+                "Guillermo Stábile fue el primer goleador de la historia en los mundiales.",
+                "Lionel Messi es el futbolista con más partidos jugados en fases finales del mundo.",
+                "Ganaron su primera Copa de la FIFA actuando como locales en el año 1978.",
+                "Es el combinado que más tarjetas amarillas ha recibido históricamente.",
+                "Han disputado un total de seis finales de la Copa Mundial hasta la fecha.",
+                "El astro Diego Maradona anotó el 'Gol del Siglo' contra Inglaterra en el 86."
+            ],
+            "Brasil": [
+                "¡Sabías que participó en todos los mundiales de la historia sin excepción!",
+                "Es el máximo ganador histórico de la competición con 5 copas del mundo.",
+                "Retiró el color blanco de sus camisetas tras la derrota del Maracanazo.",
+                "Pelé es el jugador más joven en ganar una final del mundo con 17 años.",
+                "Es la selección que ha anotado más goles en la historia del certamen.",
+                "Ronaldo Nazário anotó 15 goles en sus participaciones de fases finales.",
+                "Ganaron tres mundiales de forma casi consecutiva en 1958, 1962 y 1970.",
+                "Es el único país que posee la copa Jules Rimet en propiedad absoluta.",
+                "Cafú es el único jugador en disputar tres finales del mundo seguidas.",
+                "Su mascota oficial más recordada de los últimos años fue Fuleco."
+            ],
+            "Francia": [
+                "¡Sabías que cruzó el Atlántico para el primer mundial de 1930!",
+                "Just Fontaine metió un récord absoluto de 13 goles en un solo torneo.",
+                "Ganó el triplete de competiciones FIFA consecutivas (Mundial, Confederaciones y Euro).",
+                "Su primer título como campeones del mundo llegó en París en 1998.",
+                "Zinedine Zidane anotó en dos finales distintas de la Copa del Mundo.",
+                "El gallo en su escudo representa la herencia cultural de la antigua Galia.",
+                "Kylian Mbappé anotó un 'hat-trick' en la gran final disputada en el año 2022.",
+                "Francia fue el organizador de la tercera edición del certamen en 1938.",
+                "Su seleccionador Didier Deschamps ganó la copa como jugador y como técnico.",
+                "Lucien Laurent anotó el primer gol en la historia completa de los mundiales."
             ]
         };
 
-        const mascotas = [
+        const baseCalendarios = {
+            "España": ["25/06 vs Japón 🏟️ Azteca", "29/06 Octavos de Final ⏰ Confirmar"],
+            "Argentina": ["24/06 vs Marruecos 🏟️ LA", "29/06 Octavos de Final ⏰ Confirmar"],
+            "Brasil": ["26/06 vs Portugal 🏟️ Miami", "30/06 Octavos de Final ⏰ Confirmar"],
+            "Francia": ["25/06 vs Canadá 🏟️ Vancouver", "29/06 Octavos de Final ⏰ Confirmar"]
+        };
+
+        // Estructura de Mascotas del Mundial para la sección del noticiero interactivo
+        const mascotasMundial = [
             { nombre: "Ato", img: "https://cdn-icons-png.flaticon.com/512/9463/9463943.png" },
             { nombre: "Kaz", img: "https://cdn-icons-png.flaticon.com/512/10478/10478749.png" },
             { nombre: "Nik", img: "https://cdn-icons-png.flaticon.com/512/4134/4134173.png" }
         ];
 
         let usuarioLogueado = "";
+        let modalEsEditable = true;
+        let modalNombreAmigoActivo = "";
 
-        // --- LÓGICA DE DRAG AND DROP (ARRASTRE) ---
-        let cuadroActivo = null;
-        let offsetX = 0, offsetY = 0;
+        // --- SISTEMA DRAG AND DROP NATIVO (ARRASTRE DE CUADROS) ---
+        let elementoSeleccionado = null;
+        let empujeX = 0;
+        let empujeY = 0;
 
-        function iniciarArrastre(e, idCuadro) {
-            cuadroActivo = document.getElementById(idCuadro);
-            offsetX = e.clientX - cuadroActivo.offsetLeft;
-            offsetY = e.clientY - cuadroActivo.offsetTop;
-            document.addEventListener('mousemove', moverCuadro);
+        function iniciarArrastre(e, idElemento) {
+            elementoSeleccionado = document.getElementById(idElemento);
+            empujeX = e.clientX - elementoSeleccionado.offsetLeft;
+            empujeY = e.clientY - elementoSeleccionado.offsetTop;
+            document.addEventListener('mousemove', moverElemento);
             document.addEventListener('mouseup', detenerArrastre);
         }
 
-        function moverCuadro(e) {
-            if (cuadroActivo) {
-                cuadroActivo.style.left = (e.clientX - offsetX) + 'px';
-                cuadroActivo.style.top = (e.clientY - offsetY) + 'px';
+        function moverElemento(e) {
+            if (elementoSeleccionado) {
+                elementoSeleccionado.style.left = (e.clientX - empujeX) + 'px';
+                elementoSeleccionado.style.top = (e.clientY - empujeY) + 'px';
             }
         }
 
         function detenerArrastre() {
-            cuadroActivo = null;
-            document.removeEventListener('mousemove', moverCuadro);
+            elementoSeleccionado = null;
+            document.removeEventListener('mousemove', moverElemento);
             document.removeEventListener('mouseup', detenerArrastre);
         }
 
-        // --- EFECTO CLICK SPARK PREMIUM (REACTBITS STYLE) ---
+        // --- EFECTO VISUAL CLICK SPARK PREMIUM (ESTILO REACTBITS) ---
         const canvas = document.getElementById('spark-canvas');
         const ctx = canvas.getContext('2d');
-        let sparks = [];
+        let chispas = [];
 
-        function ajustarCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', ajustarCanvas);
-        ajustarCanvas();
+        function redimensionarCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', redimensionarCanvas);
+        redimensionarCanvas();
 
         window.addEventListener('click', (e) => {
-            crearChispas(e.clientX, e.clientY);
+            provocarChispas(e.clientX, e.clientY);
         });
 
-        function crearChispas(x, y) {
-            const count = 8; // sparkCount
-            for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 / count) * i;
-                sparks.push({
+        function provocarChispas(x, y) {
+            const numeroParticulas = 8; // sparkCount
+            for (let i = 0; i < numeroParticulas; i++) {
+                const angulo = (Math.PI * 2 / numeroParticulas) * i;
+                chispas.push({
                     x: x, y: y,
-                    vx: Math.cos(angle) * (Math.random() * 3 + 2),
-                    vy: Math.sin(angle) * (Math.random() * 3 + 2),
-                    alpha: 1,
-                    size: 8 // sparkSize
+                    velocidadX: Math.cos(angulo) * (Math.random() * 3 + 2),
+                    velocidadY: Math.sin(angulo) * (Math.random() * 3 + 2),
+                    opacidad: 1,
+                    tamano: 10 // sparkSize
                 });
             }
         }
 
-        function animarSparks() {
+        function bucleAnimacionChispas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = sparks.length - 1; i >= 0; i--) {
-                let p = sparks[i];
-                p.x += p.vx; p.y += p.vy;
-                p.alpha -= 0.025; // Duración aproximada de 400ms
-                if (p.alpha <= 0) { sparks.splice(i, 1); continue; }
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+            for (let i = chispas.length - 1; i >= 0; i--) {
+                let c = chispas[i];
+                c.x += c.velocidadX;
+                c.y += c.velocidadY;
+                c.opacidad -= 0.025; // Duración aproximada de 400ms (easing ease-out simulado)
+                
+                if (c.opacidad <= 0) {
+                    chispas.splice(i, 1);
+                    continue;
+                }
+                ctx.fillStyle = `rgba(255, 255, 255, ${c.opacidad})`;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * p.alpha, 0, Math.PI * 2);
+                ctx.arc(c.x, c.y, c.tamano * c.opacidad, 0, Math.PI * 2);
                 ctx.fill();
             }
-            requestAnimationFrame(animarSparks);
+            requestAnimationFrame(bucleAnimacionChispas);
         }
-        animarSparks();
+        bucleAnimacionChispas();
 
-        // --- CONTROL DE LOGIN Y PERFIL ---
-        window.onload = function() {
-            const select = document.getElementById('select-favorito');
-            Object.keys(banderasPaises).forEach(p => {
-                let opt = document.createElement('option'); opt.value = p; opt.innerText = p; select.appendChild(opt);
-            });
-            actualizarTablaGeneral();
-        };
+        // --- SISTEMA DE NOTICIAS DE LAS MASCOTAS (CADA 45 SEGUNDOS) ---
+        function rotarNoticieroMascota() {
+            const mascotaElegida = mascotasMundial[Math.floor(Math.random() * mascotasMundial.length)];
+            document.getElementById('foto-mascota').src = mascotaElegida.img;
 
-        function intentarLogin() {
-            const user = document.getElementById('login-usuario').value;
-            const pass = document.getElementById('login-clave').value.trim();
-            if (credenciales[user] && credenciales[user] === pass) {
-                usuarioLogueado = user;
-                document.getElementById('seccion-login').style.display = 'none';
-                document.getElementById('seccion-dashboard').style.display = 'block';
-                document.getElementById('mi-nombre').innerText = user;
-                dibujarAmigosCancha();
-                ejecutarNoticieroMascota();
-                setInterval(ejecutarNoticieroMascota, 45000); // Lanzar cada 45 segundos
-            }
-        }
-
-        function actualizarEquipoFavorito(pais) {
-            if(!pais) return;
-            const flag = document.getElementById('flag-fav');
-            flag.src = `https://flagcdn.com/${banderasPaises[pais]}.svg`; flag.style.display = "block";
-
-            // Inyectar 3 datos completamente aleatorios y diferentes de la lista de 10
-            const box = document.getElementById('curiosidades-box'); box.innerHTML = "";
-            let pool = [...(poolCuriosidades[pais] || ["¡Dato exclusivo en desarrollo para este equipo nacional!"])];
-            
-            for(let i=0; i<3; i++) {
-                if(pool.length === 0) break;
-                let index = Math.floor(Math.random() * pool.length);
-                let item = document.createElement('div'); item.classList.add('dato-item');
-                item.innerText = `▪️ ${pool[index]}`;
-                box.appendChild(item);
-                pool.splice(index, 1);
-            }
-        }
-
-        // --- SISTEMA COMENTARISTA DINÁMICO (NOTICIAS EN VIVO) ---
-        function ejecutarNoticieroMascota() {
-            const m = mascotas[Math.floor(Math.random() * mascotas.length)];
-            document.getElementById('mascota-img').src = m.img;
-
-            const titulares = [
+            const titularesNoticias = [
                 "🔥 ¡Atención! Saúl lidera la quiniela con mano de hierro en este momento.",
                 "⚠️ Alerta de empate en la zona media entre Jorge y Osmel con los mismos aciertos parciales.",
                 "⚽ ¡Increíble! Nadie ha fallado el primer clasificado del Grupo A hasta la fecha.",
                 "📉 Última hora: Gerardo se encuentra en el fondo de la tabla intentando remontar."
             ];
-            document.getElementById('comentario-texto').innerText = titulares[Math.floor(Math.random() * titulares.length)];
+            document.getElementById('texto-noticia').innerText = titularesNoticias[Math.floor(Math.random() * titularesNoticias.length)];
         }
 
-        function dibujarAmigosCancha() {
-            const contenedor = document.getElementById('cancha-amigos'); contenedor.innerHTML = "";
-            Object.keys(credenciales).forEach(nombre => {
-                if(nombre === usuarioLogueado) return;
-                let div = document.createElement('div'); div.classList.add('amigo-burbuja');
-                div.innerHTML = `<img class="amigo-pic" src="https://cdn-icons-png.flaticon.com/512/53/53283.png"><span class="amigo-txt">${nombre}</span>`;
-                contenedor.appendChild(div);
+        window.onload = function() {
+            const select = document.getElementById('select-favorito');
+            Object.keys(banderasPaises).sort().forEach(pais => {
+                const opt = document.createElement('option');
+                opt.value = pais; opt.innerText = pais;
+                select.appendChild(opt);
             });
+        };
+
+        function intentarLogin() {
+            const usuario = document.getElementById('login-usuario').value;
+            const clave = document.getElementById('login-clave').value.trim();
+            const errorMsg = document.getElementById('error-login');
+
+            if (credenciales[usuario] && credenciales[usuario] === clave) {
+                usuarioLogueado = usuario;
+                errorMsg.style.display = 'none';
+                document.getElementById('login-clave').value = "";
+                
+                document.getElementById('seccion-login').style.display = 'none';
+                document.getElementById('seccion-dashboard').style.display = 'grid';
+                
+                cargarDatosPerfil();
+                dibujarAlineacionCancha();
+                actualizarTablaGeneral();
+
+                // Activar el motor del noticiero cada 45 segundos
+                rotarNoticieroMascota();
+                setInterval(rotarNoticieroMascota, 45000);
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function cargarDatosPerfil() {
+            document.getElementById('mi-nombre').innerText = usuarioLogueado;
+            const fotoGuardada = localStorage.getItem(`foto_${usuarioLogueado}`);
+            document.getElementById('mi-avatar').src = fotoGuardada || "https://cdn-icons-png.flaticon.com/512/53/53283.png";
+
+            const favGuardado = localStorage.getItem(`fav_${usuarioLogueado}`) || "";
+            document.getElementById('select-favorito').value = favGuardado;
+            actualizarEquipoFavorito(favGuardado);
+        }
+
+        function procesarFoto(event) {
+            const lector = new FileReader();
+            lector.onload = function() {
+                localStorage.setItem(`foto_${usuarioLogueado}`, lector.result);
+                document.getElementById('mi-avatar').src = lector.result;
+                dibujarAlineacionCancha();
+            }
+            lector.readAsDataURL(event.target.files[0]);
+        }
+
+        function actualizarEquipoFavorito(pais) {
+            if(!pais) {
+                document.getElementById('flag-fav').style.display = "none";
+                document.getElementById('curiosidad-fav').innerText = "Selecciona un país para ver datos de interés y juegos.";
+                document.getElementById('calendario-fav').innerHTML = "";
+                return;
+            }
+            localStorage.setItem(`fav_${usuarioLogueado}`, pais);
+            
+            const flag = document.getElementById('flag-fav');
+            flag.src = `https://flagcdn.com/${banderasPaises[pais]}.svg`;
+            flag.style.display = "block";
+
+            // Sorteo dinámico de 3 datos curiosos no repetidos desde la bolsa de 10
+            const contenedorCuriosidades = document.getElementById('curiosidad-fav');
+            contenedorCuriosidades.innerHTML = "";
+            let copiaPool = [...(poolCuriosidades[pais] || [`¡Sabías que ${pais} compite con el máximo orgullo en esta edición del torneo!`])];
+            
+            for (let i = 0; i < 3; i++) {
+                if(copiaPool.length === 0) break;
+                let indiceAleatorio = Math.floor(Math.random() * copiaPool.length);
+                let divDato = document.createElement('div');
+                divDato.classList.add('datos-curiosos');
+                divDato.innerText = copiaPool[indiceAleatorio];
+                contenedorCuriosidades.appendChild(divDato);
+                copiaPool.splice(indiceAleatorio, 1);
+            }
+
+            const juegos = baseCalendarios[pais] || ["📅 Próximo encuentro: Por definir en fases avanzadas."];
+            document.getElementById('calendario-fav').innerHTML = `
+                <p style="font-weight:bold; margin-bottom:3px;">Próximos Partidos:</p>
+                ${juegos.map(j => `<div class="juego-item">▪️ ${j}</div>`).join('')}
+            `;
+        }
+
+        function dibujarAlineacionCancha() {
+            const cancha = document.getElementById('cancha');
+            cancha.innerHTML = "";
+
+            Object.keys(credenciales).forEach(nombre => {
+                if (nombre === usuarioLogueado) return;
+
+                const divAmigo = document.createElement('div');
+                divAmigo.classList.add('amigo-cancha');
+                divAmigo.onclick = () => abrirModalMenuFases(false, nombre);
+
+                const fotoAmigo = localStorage.getItem(`foto_${nombre}`) || "https://cdn-icons-png.flaticon.com/512/53/53283.png";
+                
+                divAmigo.innerHTML = `
+                    <div class="amigo-avatar"><img src="${fotoAmigo}" alt="${nombre}"></div>
+                    <div class="amigo-nombre">${nombre}</div>
+                `;
+                cancha.appendChild(divAmigo);
+            });
+        }
+
+        function abrirModalMenuFases(esEditable, nombreAmigo = "") {
+            modalEsEditable = esEditable;
+            modalNombreAmigoActivo = nombreAmigo;
+            document.getElementById('modal-q').style.display = "flex";
+            cambiarFaseVisualizacion('grupos');
+        }
+
+        function cambiarFaseVisualizacion(fase) {
+            const grid = document.getElementById('modal-grid-grupos');
+            const btnGuardar = document.getElementById('btn-modal-guardar');
+            const titulo = document.getElementById('modal-titulo');
+            grid.innerHTML = "";
+
+            if (fase === 'grupos') {
+                titulo.innerText = modalEsEditable ? "Mis Pronósticos a Octavos de Final" : `Pronósticos de ${modalNombreAmigoActivo}`;
+                btnGuardar.style.display = modalEsEditable ? "block" : "none";
+
+                const datosTarget = modalEsEditable ? 
+                    (JSON.parse(localStorage.getItem(`quiniela_${usuarioLogueado}`)) || {}) : 
+                    (JSON.parse(localStorage.getItem(`quiniela_${modalNombreAmigoActivo}`)) || {});
+
+                Object.keys(gruposMundial).forEach(letra => {
+                    const equipos = gruposMundial[letra];
+                    const tarjeta = document.createElement('div');
+                    tarjeta.classList.add('tarjeta-grupo');
+
+                    if (modalEsEditable) {
+                        let opciones = `<option value="">-- Seleccionar --</option>`;
+                        equipos.forEach(eq => { opciones += `<option value="${eq}">${eq}</option>`; });
+
+                        tarjeta.innerHTML = `
+                            <h4>Grupo ${letra}</h4>
+                            ${equipos.map(eq => `
+                                <div class="fila-bandera">
+                                    <img class="bandera-img" src="https://flagcdn.com/${banderasPaises[eq]}.svg">
+                                    <span>${eq}</span>
+                                </div>
+                            `).join('')}
+                            <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">🥇 1º Puesto:</label>
+                            <select class="selector-clasificado" id="mod-grupo-${letra}-1ro">${opciones}</select>
+                            <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">🥈 2º Puesto:</label>
+                            <select class="selector-clasificado" id="mod-grupo-${letra}-2do">${opciones}</select>
+                        `;
+                        grid.appendChild(tarjeta);
+
+                        if (datosTarget[letra]) {
+                            document.getElementById(`mod-grupo-${letra}-1ro`).value = datosTarget[letra]["1ro"] || "";
+                            document.getElementById(`mod-grupo-${letra}-2do`).value = datosTarget[letra]["2do"] || "";
+                        }
+                    } else {
+                        let v1 = datosTarget[letra]?.["1ro"] || "No elegido";
+                        let v2 = datosTarget[letra]?.["2do"] || "No elegido";
+                        let flag1 = banderasPaises[v1] ? `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v1]}.svg">` : "";
+                        let flag2 = banderasPaises[v2] ? `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v2]}.svg">` : "";
+
+                        tarjeta.innerHTML = `
+                            <h4>Grupo ${letra}</h4>
+                            <div class="voto-vista">🥇 1ro: ${flag1} <b>${v1}</b></div>
+                            <div class="voto-vista">🥈 2do: ${flag2} <b>${v2}</b></div>
+                        `;
+                        grid.appendChild(tarjeta);
+                    }
+                });
+            }
+        }
+
+        function guardarMiQuiniela() {
+            let misPredicciones = {};
+            Object.keys(gruposMundial).forEach(letra => {
+                const prim = document.getElementById(`mod-grupo-${letra}-1ro`).value;
+                const seg = document.getElementById(`mod-grupo-${letra}-2do`).value;
+                misPredicciones[letra] = { "1ro": prim, "2do": seg };
+            });
+
+            localStorage.setItem(`quiniela_${usuarioLogueado}`, JSON.stringify(misPredicciones));
+            alert("¡Tus predicciones se guardaron!");
+            cerrarModal();
+            actualizarTablaGeneral();
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const cancha = document.getElementById('cancha');
+            if(cancha && document.getElementById('seccion-dashboard').style.display === 'grid') {
+                const moverX = (e.clientX / window.innerWidth - 0.5) * 15;
+                const moverY = (e.clientY / window.innerHeight - 0.5) * 15;
+                cancha.style.transform = `translate(${moverX}px, ${moverY}px)`;
+            }
+        });
+
+        function cerrarModal() { document.getElementById('modal-q').style.display = "none"; }
+
+        function calcularAciertosUsuario(nombreUsuario) {
+            const datos = localStorage.getItem(`quiniela_${nombreUsuario}`);
+            let conteo = { perfectos: 0, parciales: 0, total: 0 };
+
+            if (!datos) return conteo;
+            const predicciones = JSON.parse(datos);
+
+            Object.keys(resultadosReales).forEach(letra => {
+                const pred = predicciones[letra];
+                const real = resultadosReales[letra];
+
+                if (pred) {
+                    let aciertosGrupo = 0;
+                    if (pred["1ro"] === real["1ro"]) aciertosGrupo++;
+                    if (pred["2do"] === real["2do"]) aciertosGrupo++;
+
+                    if (aciertosGrupo === 2) { conteo.perfectos++; conteo.total += 2; }
+                    else if (aciertosGrupo === 1) { conteo.parciales++; conteo.total += 1; }
+                }
+            });
+            return conteo;
         }
 
         function actualizarTablaGeneral() {
-            const cuerpo = document.getElementById('cuerpo-tabla'); cuerpo.innerHTML = "";
-            Object.keys(credenciales).forEach((nombre, i) => {
-                let r = cuerpo.insertRow();
-                r.innerHTML = `<td>${i+1}</td><td><b>${nombre}</b></td><td>3</td><td>2</td><td><b>5 pts</b></td>`;
+            const cuerpo = document.getElementById('cuerpo-tabla');
+            cuerpo.innerHTML = "";
+
+            const listaOrdenada = Object.keys(credenciales).map(nombre => {
+                return { nombre: nombre, datosCalculados: calcularAciertosUsuario(nombre) };
+            }).sort((a, b) => b.datosCalculados.total - a.datosCalculados.total);
+
+            listaOrdenada.forEach((amigo, indice) => {
+                const fila = document.createElement('tr');
+                if (amigo.nombre === usuarioLogueado) {
+                    fila.style.backgroundColor = "#c8e6c9";
+                    fila.style.fontWeight = "bold";
+                }
+
+                fila.innerHTML = `
+                    <td>${indice + 1}</td>
+                    <td>${amigo.nombre}</td>
+                    <td>${amigo.datosCalculados.perfectos}</td>
+                    <td>${amigo.datosCalculados.parciales}</td>
+                    <td style="color:var(--verde-grama); font-weight:bold;">${amigo.datosCalculados.total} pts</td>
+                `;
+                cuerpo.appendChild(fila);
             });
         }
 
-        function cerrarSesion() { location.reload(); }
+        function cerrarSesion() {
+            usuarioLogueado = "";
+            document.getElementById('seccion-dashboard').style.display = 'none';
+            document.getElementById('seccion-login').style.display = 'block';
+        }
     </script>
 </body>
 </html>
