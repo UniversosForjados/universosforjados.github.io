@@ -1,32 +1,3 @@
-¡Entendido! Vamos a dejar la estructura de la barra de perfil impecable y a corregir el sistema de aleatoriedad para asegurar que siempre se desplieguen los **3 datos curiosos simultáneos** extraídos de un catálogo robusto de 10 datos por selección.
-
-Con respecto a tu pregunta sobre **cómo subir tus propias imágenes PNG** (para el fondo del campo de fútbol o para los personajes de los comentaristas), al estar alojando tu sitio web de forma estática en **GitHub Pages**, el procedimiento es muy sencillo. No puedes arrastrarlas directamente a la página web en ejecución, sino que debes guardarlas en tu repositorio.
-
-Aquí tienes los pasos para hacerlo:
-
-### 📁 Cómo subir y usar tus propias imágenes PNG en GitHub
-
-1. **Sube los archivos a tu repositorio:**
-* Entra a tu repositorio en GitHub desde el navegador.
-* Haz clic en **Add file** > **Upload files**.
-* Arrastra tus imágenes PNG (por ejemplo, nombra el fondo de la cancha como `cancha.png` y las mascotas como `mascota1.png`, `mascota2.png`, etc.).
-* Haz clic abajo en el botón verde **Commit changes** para guardarlas en el servidor.
-
-
-2. **Cómo llamarlas en el código:**
-* Una vez subidas en la misma carpeta que tu `index.html`, en el código ya no necesitas usar enlaces web largos.
-* Para el fondo de la cancha, en el CSS solo cambiarías el `background-image` por: `background-image: url('cancha.png');`.
-* Para las mascotas en JavaScript, solo configuras sus rutas relativas: `img: "mascota1.png"`.
-
-
-
----
-
-### 📝 Código Completo Corregido y Optimizado (`index.html`)
-
-Aquí tienes el código completo con las correcciones de diseño aplicadas: el botón de salir regresa de forma definitiva a la base inferior, el carrusel inyecta los **3 datos curiosos al mismo tiempo** de forma aleatoria, y la mascota se sitúa correctamente **al lado** de su burbuja de diálogo (no dentro).
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
