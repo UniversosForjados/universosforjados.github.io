@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiniela Mundialista - Red Social</title>
+    <title>Quiniela Mundialista 2026 - Los 7 Amigos</title>
     <style>
-        /* --- VARIABLES Y CONFIGURACIÓN --- */
         :root {
             --verde-grama: #1b4d22;
             --verde-oscuro: #0f3015;
             --dorado: #ffd700;
             --blanco: #ffffff;
+            --gris-bloqueado: #888888;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
             min-height: 100vh;
@@ -55,7 +50,7 @@
             color: white;
             border: none;
             padding: 12px 20px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
@@ -63,44 +58,44 @@
             text-transform: uppercase;
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             background: #256e30;
             transform: translateY(-2px);
         }
 
-        .error-msg { color: red; font-weight: bold; margin-top: 10px; display: none; }
-
-        /* --- ESTRUCTURA PRINCIPAL (DASHBOARD) --- */
-        .dashboard-container {
-            display: none; /* Controlado por JS */
-            width: 100vw;
-            height: 100vh;
-            grid-template-columns: 300px 1fr;
+        button:disabled {
+            background: var(--gris-bloqueado);
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
-        /* --- COLUMNA LATERAL (PERFIL TIPO LINKEDIN) --- */
+        .error-msg { color: red; font-weight: bold; margin-top: 10px; display: none; }
+
+        /* --- DASHBOARD LAYOUT --- */
+        .dashboard-container {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            grid-template-columns: 320px 1fr;
+        }
+
+        /* --- COLUMNA LATERAL (PERFIL LINKEDIN) --- */
         .sidebar-perfil {
             background: var(--blanco);
             border-right: 3px solid var(--dorado);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 30px 20px;
+            padding: 20px 15px;
             box-shadow: 5px 0 15px rgba(0,0,0,0.3);
             z-index: 20;
-            justify-content: space-between;
-        }
-
-        .info-superior-perfil {
-            width: 100%;
-            text-align: center;
+            overflow-y: auto;
         }
 
         .avatar-contenedor {
             position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 15px;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 10px;
             border-radius: 50%;
             border: 4px solid var(--verde-grama);
             background: #f0f0f0;
@@ -110,251 +105,199 @@
             align-items: center;
         }
 
-        .avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
         .btn-subir-foto {
             background: rgba(0,0,0,0.6);
             color: white;
             position: absolute;
-            bottom: 0;
-            width: 100%;
-            font-size: 11px;
-            padding: 4px 0;
-            cursor: pointer;
-            text-align: center;
+            bottom: 0; width: 100%;
+            font-size: 10px; padding: 3px 0;
+            cursor: pointer; text-align: center;
         }
 
         .nombre-perfil {
-            font-size: 24px;
+            font-size: 22px;
             color: var(--verde-oscuro);
             font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .equipo-favorito {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 20px;
-            background: #e8f5e9;
-            padding: 5px 10px;
-            border-radius: 15px;
-            display: inline-block;
-        }
-
-        .menu-perfil-botones button {
-            width: 100%;
+            text-align: center;
             margin-bottom: 10px;
         }
 
-        .btn-salir {
-            background: #cc2424;
-            width: 100%;
+        .seccion-favorito {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
         }
+
+        .seccion-favorito label {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--verde-grama);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .selector-fav {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .bloque-info-equipo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .bandera-fav {
+            width: 45px; height: 30px; object-fit: cover;
+            border: 1px solid #ccc; margin-bottom: 5px;
+            display: none;
+        }
+
+        .datos-curiosos {
+            font-size: 12px; color: #555; font-style: italic;
+            background: #fff; padding: 6px; border-radius: 4px;
+            border-left: 3px solid var(--verde-grama); margin-top: 5px;
+        }
+
+        .calendario-juegos {
+            font-size: 11px; margin-top: 8px; width: 100%;
+            border-top: 1px dashed #ccc; padding-top: 5px;
+        }
+
+        .juego-item { padding: 3px 0; border-bottom: 1px solid #eee; color: #333; }
+
+        .btn-salir { background: #cc2424; width: 100%; margin-top: auto; }
         .btn-salir:hover { background: #e53935; }
 
-        /* --- CONTENIDO CENTRAL (CANCHA DE FÚTBOL) --- */
+        /* --- ÁREA CENTRAL --- */
         .area-central {
             display: grid;
-            grid-template-rows: 1fr auto;
-            position: relative;
+            grid-template-rows: 1fr 280px;
             height: 100vh;
+            padding: 15px;
+            gap: 15px;
         }
 
         .cancha-futbol {
             position: relative;
             background-color: #1b4d22;
-            /* Grama Real Texturizada */
             background-image: 
-                linear-gradient(rgba(255,255,255,0.1) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(255,255,255,0.1) 2px, transparent 2px),
-                repeating-linear-gradient(0deg, #18441e, #18441e 40px, #1c4f23 40px, #1c4f23 80px);
-            background-size: 40px 40px, 40px 40px, auto;
-            border: 5px solid rgba(255,255,255,0.3);
-            margin: 15px;
+                linear-gradient(rgba(255,255,255,0.08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 2px, transparent 2px),
+                repeating-linear-gradient(0deg, #18441e, #18441e 30px, #1c4f23 30px, #1c4f23 60px);
+            background-size: 30px 30px, 30px 30px, auto;
+            border: 4px solid rgba(255,255,255,0.2);
             border-radius: 10px;
-            overflow: hidden;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            padding: 40px;
-            transition: transform 0.2s ease-out;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 15px;
         }
 
-        /* Líneas de la cancha simuladas */
-        .cancha-futbol::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: rgba(255,255,255,0.2);
-            top: 50%;
-            left: 0;
-        }
-
-        .cancha-futbol::after {
-            content: '';
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            top: calc(50% - 60px);
-            left: calc(50% - 60px);
-        }
-
-        /* Amigos en la Cancha */
         .amigo-cancha {
-            background: rgba(255,255,255,0.9);
-            padding: 12px;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.92);
+            padding: 8px;
+            border-radius: 10px;
             text-align: center;
-            width: 110px;
+            width: 95px;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            z-index: 5;
-            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
             border: 2px solid transparent;
+            transition: all 0.2s ease;
         }
 
         .amigo-cancha:hover {
-            transform: scale(1.1) translateY(-5px);
+            transform: scale(1.08);
             border-color: var(--dorado);
-            background: #fff;
         }
 
         .amigo-avatar {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: #ddd;
-            margin: 0 auto 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border: 2px solid var(--verde-grama);
+            width: 55px; height: 55px; border-radius: 50%;
+            background: #ddd; margin: 0 auto 5px;
+            overflow: hidden; border: 2px solid var(--verde-grama);
         }
 
-        .amigo-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .amigo-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .amigo-nombre { font-size: 12px; font-weight: bold; color: #222; }
 
-        .amigo-nombre {
-            font-size: 13px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .amigo-puntos {
-            font-size: 11px;
-            color: #666;
-            background: #e0f2f1;
-            padding: 2px 5px;
-            border-radius: 8px;
-            margin-top: 3px;
-            display: inline-block;
-        }
-
-        /* --- FORMULARIO Y SECCIÓN DE RESPUESTAS MODAL --- */
-        .modal-quiniela {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.7);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-contenido {
+        /* --- TABLA DE POSICIONES INFERIOR --- */
+        .contenedor-tabla {
             background: white;
-            width: 90%;
-            max-width: 850px;
-            height: 85%;
-            border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            border: 4px solid var(--dorado);
-        }
-
-        .grid-grupos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 15px;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             overflow-y: auto;
-            flex-grow: 1;
-            padding: 10px;
-            background: #f7f7f7;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .tarjeta-grupo {
-            background: white;
             border: 2px solid var(--verde-grama);
-            border-radius: 8px;
-            padding: 12px;
         }
 
-        .tarjeta-grupo h4 {
-            background: var(--verde-grama);
-            color: white;
-            text-align: center;
-            padding: 4px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .fila-bandera {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 5px 0;
+        .tabla-puntos {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 14px;
         }
 
-        .bandera-img {
-            width: 24px;
-            height: 16px;
-            object-fit: cover;
-            border: 1px solid #ccc;
-            border-radius: 2px;
+        .tabla-puntos th, .tabla-puntos td {
+            padding: 10px; text-align: center; border-bottom: 1px solid #ddd;
         }
 
-        .selector-clasificado {
-            width: 100%;
-            padding: 6px;
-            margin-top: 4px;
-            border-radius: 4px;
-            font-size: 13px;
+        .tabla-puntos th { background-color: var(--verde-grama); color: white; }
+
+        /* --- MODALES --- */
+        .modal-quiniela {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7); z-index: 100;
+            display: none; justify-content: center; align-items: center;
         }
 
-        .voto-vista {
-            font-size: 13px;
-            padding: 4px;
-            background: #e8f5e9;
-            margin-top: 4px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .modal-contenido {
+            background: white; width: 92%; max-width: 850px;
+            height: 85%; border-radius: 15px; padding: 25px;
+            display: flex; flex-direction: column; border: 4px solid var(--dorado);
         }
+
+        /* Selector de Fases dentro del modal */
+        .fases-nav {
+            display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;
+        }
+
+        .btn-fase {
+            background: #eaeaea; color: #333; font-size: 11px; padding: 8px 12px; border-radius: 5px;
+        }
+        .btn-fase.activa { background: var(--verde-grama); color: white; }
+        .btn-fase:disabled { background: #d2d2d2; color: #777; cursor: not-allowed; }
+
+        .grid-grupos {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; overflow-y: auto; flex-grow: 1; padding: 10px;
+            background: #f7f7f7; border-radius: 8px; margin-bottom: 15px;
+        }
+
+        .tarjeta-grupo { background: white; border: 2px solid var(--verde-grama); border-radius: 8px; padding: 12px; }
+        .tarjeta-grupo h4 { background: var(--verde-grama); color: white; text-align: center; padding: 4px; border-radius: 4px; margin-bottom: 8px; }
+        
+        .fila-bandera { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 13px; }
+        .bandera-img { width: 22px; height: 14px; object-fit: cover; border: 1px solid #ccc; }
+        .selector-clasificado { width: 100%; padding: 5px; margin-top: 3px; font-size: 12px; }
+        .voto-vista { font-size: 12px; padding: 4px; background: #e8f5e9; margin-top: 4px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
 <body>
 
+    <!-- PANTALLA 1: LOGIN -->
     <div class="pantalla-login" id="seccion-login">
-        <h1 style="color: var(--verde-grama); margin-bottom: 15px;">🏆 Estadio Quiniela 🏆</h1>
-        <p style="color: #666; margin-bottom: 20px;">Inicia sesión en tu perfil</p>
+        <h1 style="color: var(--verde-grama); margin-bottom: 15px;">🏆 Quiniela Amigos 🏆</h1>
+        <p style="color: #666; margin-bottom: 20px;">Inicia sesión en tu cuenta</p>
         
         <select id="login-usuario" class="campo-login">
             <option value="">Selecciona tu usuario...</option>
@@ -366,43 +309,83 @@
             <option value="Francisco">Francisco</option>
             <option value="Gerardo">Gerardo</option>
         </select>
-        <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña (Tu País del Mundial)">
-        <button onclick="intentarLogin()" style="width: 100%;">Ingresar al Dashboard</button>
+        <input type="password" id="login-clave" class="campo-login" placeholder="Contraseña">
+        <button onclick="intentarLogin()" style="width: 100%;">Ingresar</button>
         <p class="error-msg" id="error-login">Usuario o Contraseña incorrectos.</p>
     </div>
 
+    <!-- PANTALLA 2: DASHBOARD -->
     <div class="dashboard-container" id="seccion-dashboard">
         
+        <!-- COLUMNA IZQUIERDA: PERFIL LINKEDIN -->
         <aside class="sidebar-perfil">
-            <div class="info-superior-perfil">
-                <div class="avatar-contenedor">
-                    <img id="mi-avatar" class="avatar-img" src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Avatar">
-                    <label class="btn-subir-foto">
-                        Subir Foto
-                        <input type="file" id="input-foto" accept="image/*" style="display:none;" onchange="procesarFoto(event)">
-                    </label>
-                </div>
-                <div class="nombre-perfil" id="mi-nombre">Usuario</div>
-                <div class="equipo-favorito" id="mi-equipo">País: Cargando...</div>
-
-                <div class="menu-perfil-botones" id="bloque-botones-edicion">
-                    <button onclick="abrirModalQuiniela(true)">📝 Editar Mi Quiniela</button>
+            <div class="avatar-contenedor">
+                <img id="mi-avatar" class="avatar-img" src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="Avatar">
+                <label class="btn-subir-foto">
+                    Cambiar Foto
+                    <input type="file" id="input-foto" accept="image/*" style="display:none;" onchange="procesarFoto(event)">
+                </label>
+            </div>
+            <div class="nombre-perfil" id="mi-nombre">Usuario</div>
+            
+            <!-- Equipo Favorito con Datos Curiosos y Calendario -->
+            <div class="seccion-favorito">
+                <label>⭐ Mi Equipo Favorito:</label>
+                <select id="select-favorito" class="selector-fav" onchange="actualizarEquipoFavorito(this.value)">
+                    <option value="">-- Seleccionar --</option>
+                </select>
+                <div class="bloque-info-equipo">
+                    <img id="flag-fav" class="bandera-fav" src="" alt="Bandera">
+                    <div id="curiosidad-fav" class="datos-curiosos">Selecciona un país para ver datos de interés y juegos.</div>
+                    <div id="calendario-fav" class="calendario-juegos"></div>
                 </div>
             </div>
 
+            <button onclick="abrirModalMenuFases(true)" style="width: 100%; margin-bottom: 10px;">📝 Editar Mi Quiniela</button>
             <button onclick="cerrarSesion()" class="btn-salir">🚪 Cerrar Aplicación</button>
         </aside>
 
+        <!-- ÁREA CENTRAL: CANCHA (ARRIBA) + TABLA DETALLADA (ABAJO) -->
         <main class="area-central">
-            <div class="cancha-futbol" id="cancha">
-                </div>
+            <!-- Cancha de Fútbol (Alineación superior de amigos) -->
+            <div class="cancha-futbol" id="cancha"></div>
+
+            <!-- Tabla Detallada Simplificada (1 y 2 puntos) -->
+            <div class="contenedor-tabla">
+                <h3 style="color: var(--verde-grama); margin-bottom: 10px;">📊 Clasificación General (Pronósticos a Octavos)</h3>
+                <table class="tabla-puntos">
+                    <thead>
+                        <tr>
+                            <th>Posición</th>
+                            <th>Amigo</th>
+                            <th>Grupos Perfectos (2pts)</th>
+                            <th>Grupos Parciales (1pt)</th>
+                            <th>Total Puntos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla"></tbody>
+                </table>
+            </div>
         </main>
     </div>
 
+    <!-- MODAL PRINCIPAL DE QUINIELA -->
     <div class="modal-quiniela" id="modal-q">
         <div class="modal-contenido">
-            <h2 id="modal-titulo" style="color: var(--verde-grama); margin-bottom: 15px;">Pronósticos</h2>
+            <h2 id="modal-titulo" style="color: var(--verde-grama); margin-bottom: 5px;">Pronósticos del Mundial</h2>
+            
+            <!-- Barra Navegadora de Fases -->
+            <div class="fases-nav">
+                <button class="btn-fase activa" id="fase-tab-grupos" onclick="cambiarFaseVisualizacion('grupos')">Clasificación Octavos (Grupos A-L)</button>
+                <button class="btn-fase" id="fase-tab-octavos" disabled>Resultados Octavos (Próximamente 29/06)</button>
+                <button class="btn-fase" id="fase-tab-cuartos" disabled>Cuartos de Final (Próximamente)</button>
+                <button class="btn-fase" id="fase-tab-semi" disabled>Semifinales (Próximamente)</button>
+                <button class="btn-fase" id="fase-tab-final" disabled>Gran Final (Próximamente)</button>
+            </div>
+
+            <!-- Malla para Renderizar Tarjetas de Predicción -->
             <div class="grid-grupos" id="modal-grid-grupos"></div>
+            
             <div style="display: flex; gap: 10px; justify-content: flex-end;">
                 <button id="btn-modal-guardar" onclick="guardarMiQuiniela()">Guardar Cambios</button>
                 <button onclick="cerrarModal()" style="background: #666;">Cerrar</button>
@@ -411,7 +394,12 @@
     </div>
 
     <script>
-        // Mapeo oficial de códigos de bandera ISO (Para cargar banderas SVG reales gratis de Flagcdn)
+        // Contraseñas en Leetspeak
+        const credenciales = {
+            "Saul": "4rgentina", "Jorge": "3spaña", "Osmel": "8rasil",
+            "Edgar": "Fr4ncia", "Guillermo": "4lemani4", "Francisco": "P0rtug4l", "Gerardo": "1talia"
+        };
+
         const banderasPaises = {
             "Argentina": "ar", "Francia": "fr", "Marruecos": "ma", "Canadá": "ca",
             "España": "es", "Alemania": "de", "Japón": "jp", "Ecuador": "ec",
@@ -442,29 +430,70 @@
             "L": ["Suecia", "Polonia", "Ghana", "Argentina"]
         };
 
-        const credenciales = {
-            "Saul": "Argentina", "Jorge": "España", "Osmel": "Brasil",
-            "Edgar": "Francia", "Guillermo": "Alemania", "Francisco": "Portugal", "Gerardo": "Italia"
+        // Resultados reales para calificar el paso a Octavos
+        const resultadosReales = {
+            "A": { "1ro": "Argentina", "2do": "Francia" }, "B": { "1ro": "España", "2do": "Alemania" },
+            "C": { "1ro": "Brasil", "2do": "Portugal" }, "D": { "1ro": "Italia", "2do": "Bélgica" },
+            "E": { "1ro": "Uruguay", "2do": "Inglaterra" }, "F": { "1ro": "Países Bajos", "2do": "Croacia" },
+            "G": { "1ro": "Colombia", "2do": "Suiza" }, "H": { "1ro": "Estados Unidos", "2do": "Gales" },
+            "I": { "1ro": "México", "2do": "Dinamarca" }, "J": { "1ro": "Chile", "2do": "Austria" },
+            "K": { "1ro": "Senegal", "2do": "Serbia" }, "L": { "1ro": "Suecia", "2do": "Polonia" }
+        };
+
+        // 4 Datos curiosos reales de equipos clave
+        const baseCuriosidades = {
+            "España": [
+                "¡Sabías que España en una convocatoria histórica de la Roja no incluyó a ningún jugador del Real Madrid!",
+                "Fue la primera selección europea en ganar un Mundial fuera de su propio continente (Sudáfrica 2010).",
+                "Mantiene el récord de mayor posesión de balón registrada en un partido oficial con un 84%.",
+                "Es el país que ostenta la transición de juego de pases cortos más rápida en la historia de los mundiales."
+            ],
+            "Argentina": [
+                "¡Sabías que la selección argentina disputó la primera final del mundo en 1930 con un balón fabricado localmente!",
+                "Es el combinado que más tandas de penales ha ganado en toda la historia de las fases finales.",
+                "Diego Maradona ostenta el récord de más faltas recibidas en un solo torneo mundial (53 faltas en 1986).",
+                "Su camiseta celeste y blanca rinde tributo a los colores de las escarapelas creadas en 1812."
+            ],
+            "Brasil": [
+                "¡Sabías que Brasil es el único país de todo el planeta que ha participado en absolutamente todas las ediciones de los Mundiales!",
+                "Es el máximo ganador histórico de la competición con sus legendarias 5 copas mundiales.",
+                "Retiró el uso del uniforme blanco de por vida tras la trágica derrota del 'Maracanazo' en 1950.",
+                "Pelé sigue siendo el jugador más joven de la historia en anotar y ganar una final del mundo con 17 años."
+            ],
+            "Francia": [
+                "¡Sabías que Francia fue uno de los cuatro equipos europeos que cruzaron el Océano Atlántico para jugar el primer mundial de la historia!",
+                "Es la primera selección de fútbol en ganar el triplete perfecto: Mundial, Eurocopa y Confederaciones.",
+                "Su jugador Just Fontaine ostenta el récord imbatible de más goles en un solo mundial, anotando 13 en 1958.",
+                "El gallo en su escudo simboliza el orgullo y la herencia de los antiguos pueblos galos."
+            ]
+        };
+
+        const baseCalendarios = {
+            "España": ["25/06 vs Japón 🏟️ Estadio Azteca", "29/06 Octavos de Final ⏰ Por definir"],
+            "Argentina": ["24/06 vs Marruecos 🏟️ Los Angeles", "29/06 Octavos de Final ⏰ Por definir"],
+            "Brasil": ["26/06 vs Portugal 🏟️ Miami Stadium", "30/06 Octavos de Final ⏰ Por definir"],
+            "Francia": ["25/06 vs Canadá 🏟️ Vancouver Arena", "29/06 Octavos de Final ⏰ Por definir"]
         };
 
         let usuarioLogueado = "";
+        let modalEsEditable = true;
+        let modalNombreAmigoActivo = "";
 
-        // Textura dinámica del movimiento del mouse en el césped
-        document.addEventListener('mousemove', (e) => {
-            const cancha = document.getElementById('cancha');
-            if(cancha) {
-                const moverX = (e.clientX / window.innerWidth - 0.5) * 20;
-                const moverY = (e.clientY / window.innerHeight - 0.5) * 20;
-                cancha.style.transform = `translate(${moverX}px, ${moverY}px)`;
-            }
-        });
+        window.onload = function() {
+            const select = document.getElementById('select-favorito');
+            Object.keys(banderasPaises).sort().forEach(pais => {
+                const opt = document.createElement('option');
+                opt.value = pais; opt.innerText = pais;
+                select.appendChild(opt);
+            });
+        };
 
         function intentarLogin() {
             const usuario = document.getElementById('login-usuario').value;
             const clave = document.getElementById('login-clave').value.trim();
             const errorMsg = document.getElementById('error-login');
 
-            if (credenciales[usuario] && credenciales[usuario].toLowerCase() === clave.toLowerCase()) {
+            if (credenciales[usuario] && credenciales[usuario] === clave) {
                 usuarioLogueado = usuario;
                 errorMsg.style.display = 'none';
                 document.getElementById('login-clave').value = "";
@@ -473,7 +502,8 @@
                 document.getElementById('seccion-dashboard').style.display = 'grid';
                 
                 cargarDatosPerfil();
-                dibujarEstadioAmigos();
+                dibujarAlineacionCancha();
+                actualizarTablaGeneral();
             } else {
                 errorMsg.style.display = 'block';
             }
@@ -481,125 +511,139 @@
 
         function cargarDatosPerfil() {
             document.getElementById('mi-nombre').innerText = usuarioLogueado;
-            document.getElementById('mi-equipo').innerText = `País: ${credenciales[usuarioLogueado]}`;
-            
-            // Cargar foto si ya se guardó antes en localStorage
             const fotoGuardada = localStorage.getItem(`foto_${usuarioLogueado}`);
-            if (fotoGuardada) {
-                document.getElementById('mi-avatar').src = fotoGuardada;
-            } else {
-                document.getElementById('mi-avatar').src = "https://cdn-icons-png.flaticon.com/512/53/53283.png";
-            }
+            document.getElementById('mi-avatar').src = fotoGuardada || "https://cdn-icons-png.flaticon.com/512/53/53283.png";
+
+            const favGuardado = localStorage.getItem(`fav_${usuarioLogueado}`) || "";
+            document.getElementById('select-favorito').value = favGuardado;
+            actualizarEquipoFavorito(favGuardado);
         }
 
         function procesarFoto(event) {
             const lector = new FileReader();
             lector.onload = function() {
-                const base64 = lector.result;
-                localStorage.setItem(`foto_${usuarioLogueado}`, base64);
-                document.getElementById('mi-avatar').src = base64;
-                dibujarEstadioAmigos(); // Redibuja la cancha para actualizar tu foto
+                localStorage.setItem(`foto_${usuarioLogueado}`, lector.result);
+                document.getElementById('mi-avatar').src = lector.result;
+                dibujarAlineacionCancha();
             }
             lector.readAsDataURL(event.target.files[0]);
         }
 
-        function dibujarEstadioAmigos() {
+        function actualizarEquipoFavorito(pais) {
+            if(!pais) {
+                document.getElementById('flag-fav').style.display = "none";
+                document.getElementById('curiosidad-fav').innerText = "Selecciona un país para ver datos de interés y juegos.";
+                document.getElementById('calendario-fav').innerHTML = "";
+                return;
+            }
+            localStorage.setItem(`fav_${usuarioLogueado}`, pais);
+            
+            const flag = document.getElementById('flag-fav');
+            flag.src = `https://flagcdn.com/${banderasPaises[pais]}.svg`;
+            flag.style.display = "block";
+
+            // Mostrar 1 de los 4 datos curiosos reales aleatoriamente o por defecto
+            const curiosidades = baseCuriosidades[pais] || [labelCuriosidadEstandar(pais)];
+            const aleatorio = Math.floor(Math.random() * curiosidades.length);
+            document.getElementById('curiosidad-fav').innerText = curiosidades[aleatorio];
+
+            // Renderizar Calendario
+            const juegos = baseCalendarios[pais] || ["📅 Próximo encuentro: Fase eliminatoria por confirmar."];
+            document.getElementById('calendario-fav').innerHTML = `
+                <p style="font-weight:bold; margin-bottom:3px;">Próximos Partidos:</p>
+                ${juegos.map(j => `<div class="juego-item">▪️ ${j}</div>`).join('')}
+            `;
+        }
+
+        function labelCuriosidadEstandar(pais) {
+            return `¡Sabías que ${pais} cuenta con una de las plantillas más jóvenes del torneo internacional, apostando por el recambio generacional!`;
+        }
+
+        function dibujarAlineacionCancha() {
             const cancha = document.getElementById('cancha');
             cancha.innerHTML = "";
 
             Object.keys(credenciales).forEach(nombre => {
-                if (nombre === usuarioLogueado) return; // Mostrar solo a los demás en el campo
+                if (nombre === usuarioLogueado) return;
 
                 const divAmigo = document.createElement('div');
                 divAmigo.classList.add('amigo-cancha');
-                divAmigo.onclick = () => abrirModalQuiniela(false, nombre);
+                divAmigo.onclick = () => abrirModalMenuFases(false, nombre);
 
                 const fotoAmigo = localStorage.getItem(`foto_${nombre}`) || "https://cdn-icons-png.flaticon.com/512/53/53283.png";
                 
                 divAmigo.innerHTML = `
-                    <div class="amigo-avatar">
-                        <img src="${fotoAmigo}" alt="${nombre}">
-                    </div>
+                    <div class="amigo-avatar"><img src="${fotoAmigo}" alt="${nombre}"></div>
                     <div class="amigo-nombre">${nombre}</div>
-                    <div class="amigo-puntos">Ver Quiniela</div>
                 `;
                 cancha.appendChild(divAmigo);
             });
         }
 
-        function abrirModalQuiniela(esEditable, nombreAmigo = "") {
-            const modal = document.getElementById('modal-q');
-            const titulo = document.getElementById('modal-titulo');
+        function abrirModalMenuFases(esEditable, nombreAmigo = "") {
+            modalEsEditable = esEditable;
+            modalNombreAmigoActivo = nombreAmigo;
+            
+            document.getElementById('modal-q').style.display = "flex";
+            cambiarFaseVisualizacion('grupos');
+        }
+
+        function cambiarFaseVisualizacion(fase) {
             const grid = document.getElementById('modal-grid-grupos');
             const btnGuardar = document.getElementById('btn-modal-guardar');
+            const titulo = document.getElementById('modal-titulo');
             
             grid.innerHTML = "";
-            modal.style.display = "flex";
 
-            if (esEditable) {
-                titulo.innerText = "Configurar mis Pronósticos (A-L)";
-                btnGuardar.style.display = "block";
-                
-                const datosPropios = JSON.parse(localStorage.getItem(`quiniela_${usuarioLogueado}`)) || {};
+            if (fase === 'grupos') {
+                titulo.innerText = modalEsEditable ? "Mis Pronósticos a Octavos de Final" : `Pronósticos de ${modalNombreAmigoActivo}`;
+                btnGuardar.style.display = modalEsEditable ? "block" : "none";
+
+                const datosTarget = modalEsEditable ? 
+                    (JSON.parse(localStorage.getItem(`quiniela_${usuarioLogueado}`)) || {}) : 
+                    (JSON.parse(localStorage.getItem(`quiniela_${modalNombreAmigoActivo}`)) || {});
 
                 Object.keys(gruposMundial).forEach(letra => {
                     const equipos = gruposMundial[letra];
                     const tarjeta = document.createElement('div');
                     tarjeta.classList.add('tarjeta-grupo');
 
-                    let opciones = `<option value="">-- Seleccionar --</option>`;
-                    equipos.forEach(eq => {
-                        opciones += `<option value="${eq}">${eq}</option>`;
-                    });
+                    if (modalEsEditable) {
+                        let opciones = `<option value="">-- Seleccionar --</option>`;
+                        equipos.forEach(eq => { opciones += `<option value="${eq}">${eq}</option>`; });
 
-                    tarjeta.innerHTML = `
-                        <h4>Grupo ${letra}</h4>
-                        ${equipos.map(eq => `
-                            <div class="fila-bandera">
-                                <img class="bandera-img" src="https://flagcdn.com/${banderasPaises[eq]}.svg">
-                                <span>${eq}</span>
-                            </div>
-                        `).join('')}
-                        <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">1º Clasificado:</label>
-                        <select class="selector-clasificado" id="mod-grupo-${letra}-1ro">${opciones}</select>
-                        <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">2º Clasificado:</label>
-                        <select class="selector-clasificado" id="mod-grupo-${letra}-2do">${opciones}</select>
-                    `;
-                    grid.appendChild(tarjeta);
+                        tarjeta.innerHTML = `
+                            <h4>Grupo ${letra}</h4>
+                            ${equipos.map(eq => `
+                                <div class="fila-bandera">
+                                    <img class="bandera-img" src="https://flagcdn.com/${banderasPaises[eq]}.svg">
+                                    <span>${eq}</span>
+                                </div>
+                            `).join('')}
+                            <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">🥇 1º Puesto:</label>
+                            <select class="selector-clasificado" id="mod-grupo-${letra}-1ro">${opciones}</select>
+                            <label style="font-size:11px; font-weight:bold; margin-top:5px; display:block;">🥈 2º Puesto:</label>
+                            <select class="selector-clasificado" id="mod-grupo-${letra}-2do">${opciones}</select>
+                        `;
+                        grid.appendChild(tarjeta);
 
-                    // Pre-cargar valores ya guardados
-                    if (datosPropios[letra]) {
-                        document.getElementById(`mod-grupo-${letra}-1ro`).value = datosPropios[letra]["1ro"];
-                        document.getElementById(`mod-grupo-${letra}-2do`).value = datosPropios[letra]["2do"];
+                        if (datosTarget[letra]) {
+                            document.getElementById(`mod-grupo-${letra}-1ro`).value = datosTarget[letra]["1ro"] || "";
+                            document.getElementById(`mod-grupo-${letra}-2do`).value = datosTarget[letra]["2do"] || "";
+                        }
+                    } else {
+                        let v1 = datosTarget[letra]?.["1ro"] || "No elegido";
+                        let v2 = datosTarget[letra]?.["2do"] || "No elegido";
+                        let flag1 = banderasPaises[v1] ? `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v1]}.svg">` : "";
+                        let flag2 = banderasPaises[v2] ? `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v2]}.svg">` : "";
+
+                        tarjeta.innerHTML = `
+                            <h4>Grupo ${letra}</h4>
+                            <div class="voto-vista">🥇 1ro: ${flag1} <b>${v1}</b></div>
+                            <div class="voto-vista">🥈 2do: ${flag2} <b>${v2}</b></div>
+                        `;
+                        grid.appendChild(tarjeta);
                     }
-                });
-            } else {
-                titulo.innerText = `Quiniela de ${nombreAmigo}`;
-                btnGuardar.style.display = "none";
-
-                const datosAmigo = JSON.parse(localStorage.getItem(`quiniela_${nombreAmigo}`)) || null;
-
-                Object.keys(gruposMundial).forEach(letra => {
-                    const tarjeta = document.createElement('div');
-                    tarjeta.classList.add('tarjeta-grupo');
-
-                    let v1 = "No elegido";
-                    let v2 = "No elegido";
-                    let flag1 = "", flag2 = "";
-
-                    if (datosAmigo && datosAmigo[letra]) {
-                        v1 = datosAmigo[letra]["1ro"] || "No elegido";
-                        v2 = datosAmigo[letra]["2do"] || "No elegido";
-                        if(banderasPaises[v1]) flag1 = `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v1]}.svg">`;
-                        if(banderasPaises[v2]) flag2 = `<img class="bandera-img" src="https://flagcdn.com/${banderasPaises[v2]}.svg">`;
-                    }
-
-                    tarjeta.innerHTML = `
-                        <h4>Grupo ${letra}</h4>
-                        <div class="voto-vista">🥇 1ro: ${flag1} <b>${v1}</b></div>
-                        <div class="voto-vista">🥈 2do: ${flag2} <b>${v2}</b></div>
-                    `;
-                    grid.appendChild(tarjeta);
                 });
             }
         }
@@ -613,12 +657,66 @@
             });
 
             localStorage.setItem(`quiniela_${usuarioLogueado}`, JSON.stringify(misPredicciones));
-            alert("¡Tus predicciones han sido guardadas con éxito!");
+            alert("¡Tus predicciones se guardaron!");
             cerrarModal();
+            actualizarTablaGeneral();
         }
 
-        function cerrarModal() {
-            document.getElementById('modal-q').style.display = "none";
+        function cerrarModal() { document.getElementById('modal-q').style.display = "none"; }
+
+        // Sistema de conteo simplificado (1 y 2 puntos)
+        function calcularAciertosUsuario(nombreUsuario) {
+            const datos = localStorage.getItem(`quiniela_${nombreUsuario}`);
+            let conteo = { perfectos: 0, parciales: 0, total: 0 };
+
+            if (!datos) return conteo;
+            const predicciones = JSON.parse(datos);
+
+            Object.keys(resultadosReales).forEach(letra => {
+                const pred = predicciones[letra];
+                const real = resultadosReales[letra];
+
+                if (pred) {
+                    let aciertosGrupo = 0;
+                    if (pred["1ro"] === real["1ro"]) aciertosGrupo++;
+                    if (pred["2do"] === real["2do"]) aciertosGrupo++;
+
+                    if (aciertosGrupo === 2) {
+                        conteo.perfectos++;
+                        conteo.total += 2; // 2 puntos por meter ambos bien
+                    } else if (aciertosGrupo === 1) {
+                        conteo.parciales++;
+                        conteo.total += 1; // 1 punto por meter solo uno
+                    }
+                }
+            });
+            return conteo;
+        }
+
+        function actualizarTablaGeneral() {
+            const cuerpo = document.getElementById('cuerpo-tabla');
+            cuerpo.innerHTML = "";
+
+            const listaOrdenada = Object.keys(credenciales).map(nombre => {
+                return { nombre: nombre, datosCalculados: calcularAciertosUsuario(nombre) };
+            }).sort((a, b) => b.datosCalculados.total - a.datosCalculados.total);
+
+            listaOrdenada.forEach((amigo, indice) => {
+                const fila = document.createElement('tr');
+                if (amigo.nombre === usuarioLogueado) {
+                    fila.style.backgroundColor = "#c8e6c9";
+                    fila.style.fontWeight = "bold";
+                }
+
+                fila.innerHTML = `
+                    <td>${indice + 1}</td>
+                    <td>${amigo.nombre}</td>
+                    <td>${amigo.datosCalculados.perfectos} (Gana 2pts)</td>
+                    <td>${amigo.datosCalculados.parciales} (Gana 1pt)</td>
+                    <td style="color:var(--verde-grama); font-weight:bold;">${amigo.datosCalculados.total} pts</td>
+                `;
+                cuerpo.appendChild(fila);
+            });
         }
 
         function cerrarSesion() {
